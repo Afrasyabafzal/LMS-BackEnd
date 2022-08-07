@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const key = process.env.SECRET_KEY
 module.exports.register__controller = async (req, res, next) => {
   try {
-    const { userName, email, password, confirmPassword } = req.body;
+    const { userName, email, password, confirmPassword, role } = req.body;
 
     const userInfo = await UserModel.findOne({ email });
 
@@ -20,6 +20,7 @@ module.exports.register__controller = async (req, res, next) => {
       userName,
       email,
       password: hash,
+      role
     });
 
     user

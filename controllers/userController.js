@@ -32,13 +32,22 @@ module.exports.getTeacher__controller=async (req,res,next)=>{
 
 module.exports.deleteTeacher__controller = async (req, res, next) => {
     try {
-      const { userId } = req.body;
+      const  userId  = req.params.id;
       const user = await UserModel.findOneAndDelete({ _id: userId });
-      return res.status(200).json({
-        user,
-      });
+      if(user)
+      {
+        return res.status(200).json({
+            user,
+            message: "User deleted successfully"
+          });
+      }
+    else{
+            return res.status(400).json({
+                error: "USER NOT FOUND"
+              });
+        }
+      
     } catch (err) {
-      console.log(err);
       return res.status(400).json({
         error: "Something went wrong",
       });

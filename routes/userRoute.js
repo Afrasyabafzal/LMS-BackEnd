@@ -23,7 +23,7 @@ router.get(
 );
 
 router.get(
-  "/delete-teacher",
+  "/delete/:id",
   requireLogin,
   adminAuthentication,
   deleteTeacher__controller
