@@ -1,7 +1,8 @@
 const {
   getStudent__controller,
   getTeacher__controller,
-  deleteTeacher__controller
+  deleteTeacher__controller,
+  edit_profile
 } = require("../controllers/userController");
 const { adminAuthentication } = require("../middlewares/authentication");
 const { requireLogin } = require("../middlewares/requireLogin");
@@ -27,6 +28,12 @@ router.get(
   requireLogin,
   adminAuthentication,
   deleteTeacher__controller
+);
+router.put(
+  "/edit-profile",
+  requireLogin,
+  adminAuthentication,
+  edit_profile
 );
 
 module.exports = router;

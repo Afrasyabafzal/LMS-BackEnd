@@ -53,3 +53,25 @@ module.exports.deleteTeacher__controller = async (req, res, next) => {
       });
     }
   };
+  module.exports.edit_profile = async (req, res, next) => {
+
+        console.log(req.body);    
+        const { _id, userName, email, password, role } = req.body;
+        const User = await UserModel.findByIdAndUpdate(_id, {
+            userName: userName,
+            email: email,
+            password: password,
+            role: role
+        })
+        .then((user) => {
+            return res.status(200).json({
+                user,
+                message: "User updated successfully"
+            });
+        }).catch((err) => {
+            return res.status(400).json({
+                error: "Error occurred"
+            });
+        }
+        );
+  }
