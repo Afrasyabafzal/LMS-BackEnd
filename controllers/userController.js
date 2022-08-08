@@ -57,6 +57,12 @@ module.exports.deleteTeacher__controller = async (req, res, next) => {
 
         console.log(req.body);    
         const { _id, userName, email, password, role } = req.body;
+        const userInfo = await UserModel.findOne({ email });
+        if (userInfo) {
+          return res.status(401).json({
+            errors: { user: "User already exists" },
+          });
+        }
         const User = await UserModel.findByIdAndUpdate(_id, {
             userName: userName,
             email: email,
