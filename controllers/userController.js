@@ -56,7 +56,7 @@ module.exports.deleteTeacher__controller = async (req, res, next) => {
   module.exports.edit_profile = async (req, res, next) => {
 
         console.log(req.body);    
-        const { _id, userName, email, password, role } = req.body;
+        const { _id, userName, email, password,familyName,numberOfClasses, teacher,role } = req.body;
         const userInfo = await UserModel.findOne({ email });
         if (userInfo) {
           return res.status(401).json({
@@ -67,6 +67,9 @@ module.exports.deleteTeacher__controller = async (req, res, next) => {
             userName: userName,
             email: email,
             password: password,
+            familyName:familyName,
+            numberOfClasses: numberOfClasses,
+            teacher:teacher,
             role: role
         })
         .then((user) => {

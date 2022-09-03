@@ -1,4 +1,5 @@
 const UserModel = require("../model/UserModel");
+const ClientModel = require("../model/Client")
 const bcrypt = require("bcryptjs");
 const controllerError = require("../utils/controllerError");
 const jwt = require("jsonwebtoken");
@@ -6,8 +7,8 @@ const jwt = require("jsonwebtoken");
 const key = process.env.SECRET_KEY
 module.exports.register__controller = async (req, res, next) => {
   try {
-    const { userName, email, password, confirmPassword, role } = req.body;
-
+    const { userName, email, password, confirmPassword, role, enrollmentDate,familyName, numberOfClasses, teacher } = req.body;
+    console.log(role);
     const userInfo = await UserModel.findOne({ email });
 
     if (userInfo) {
@@ -16,14 +17,16 @@ module.exports.register__controller = async (req, res, next) => {
       });
     }
     const hash = await bcrypt.hash(password, 10);
-    const user = new UserModel({
-      userName,
-      email,
-      password: hash,
-      role
-    });
+    if(role == "Teacher") {
+      console.log(role);
+      const user = new UserModel({
+        userName,
+        email,
+        password: hash,
+        role
+      });
 
-    user
+      user
       .save()
       .then((userData) => {
         res.status(201).json({
@@ -33,6 +36,96 @@ module.exports.register__controller = async (req, res, next) => {
       .catch((err) => {
         controllerError(err, res, "Error occurred");
       });
+    }
+
+    if(role == "Student") {
+      const user = new UserModel({
+        userName,
+        email,
+        password: hash,
+        enrollmentDate,
+        familyName,
+        numberOfClasses,
+        teacher,
+        role
+      });
+
+      user
+      .save()
+      .then((userData) => {
+        res.status(201).json({
+          userData,
+        });
+      })
+      .catch((err) => {
+        controllerError(err, res, "Error occurred");
+      });
+    }
+
+    
+  } catch (error) {
+    controllerError(error, res, "Error occurred");
+  }
+};
+
+module.exports.register_client_controller = async (req, res, next) => {
+  try {
+    const { userName, email, password, confirmPassword, role, enrollmentDate,familyName, numberOfClasses, teacher } = req.body;
+    console.log(role);
+    const userInfo = await UserModel.findOne({ email });
+
+    if (userInfo) {
+      return res.status(401).json({
+        errors: { user: "User already exists" },
+      });
+    }
+    const hash = await bcrypt.hash(password, 10);
+    if(role == "Teacher") {
+      console.log(role);
+      const user = new UserModel({
+        userName,
+        email,
+        password: hash,
+        role
+      });
+
+      user
+      .save()
+      .then((userData) => {
+        res.status(201).json({
+          userData,
+        });
+      })
+      .catch((err) => {
+        controllerError(err, res, "Error occurred");
+      });
+    }
+
+    if(role == "Student") {
+      const user = new UserModel({
+        userName,
+        email,
+        password: hash,
+        enrollmentDate,
+        familyName,
+        numberOfClasses,
+        teacher,
+        role
+      });
+
+      user
+      .save()
+      .then((userData) => {
+        res.status(201).json({
+          userData,
+        });
+      })
+      .catch((err) => {
+        controllerError(err, res, "Error occurred");
+      });
+    }
+
+    
   } catch (error) {
     controllerError(error, res, "Error occurred");
   }

@@ -14,6 +14,22 @@ const userSchema= mongoose.Schema({
         type: String,
         required: true
     },
+    enrollmentDate:{
+        type: Date,
+    },
+    // Client:{
+    //     type:mongoose.Schema.Types.ObjectId,
+    //     required: true
+    // },
+    familyName:{
+        type:String
+    },
+    numberOfClasses:{
+        type: Number,
+    },
+    teacher:{
+        type:mongoose.Schema.Types.ObjectId,
+    },
     role:{
         type: String,
         default: "Admin"
