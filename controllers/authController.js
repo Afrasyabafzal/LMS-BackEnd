@@ -70,23 +70,25 @@ module.exports.register__controller = async (req, res, next) => {
 
 module.exports.register_client_controller = async (req, res, next) => {
   try {
-    const { userName, email, password, confirmPassword, role, enrollmentDate,familyName, numberOfClasses, teacher } = req.body;
-    console.log(role);
-    const userInfo = await UserModel.findOne({ email });
+    console.log(req.body)
+    const { userName, email, NumberOfStudent, ContactNumber, Country, Fee, NumberofClasses} = req.body;
+    
+    const userInfo = await ClientModel.findOne({ email });
 
     if (userInfo) {
       return res.status(401).json({
-        errors: { user: "User already exists" },
+        errors: { user: "Client already exists" },
       });
     }
-    const hash = await bcrypt.hash(password, 10);
-    if(role == "Teacher") {
-      console.log(role);
-      const user = new UserModel({
+    
+      const user = new ClientModel({
         userName,
         email,
-        password: hash,
-        role
+        NumberOfStudent,
+        ContactNumber,
+        Country,
+        Fee,
+        NumberofClasses
       });
 
       user
@@ -99,32 +101,7 @@ module.exports.register_client_controller = async (req, res, next) => {
       .catch((err) => {
         controllerError(err, res, "Error occurred");
       });
-    }
-
-    if(role == "Student") {
-      const user = new UserModel({
-        userName,
-        email,
-        password: hash,
-        enrollmentDate,
-        familyName,
-        numberOfClasses,
-        teacher,
-        role
-      });
-
-      user
-      .save()
-      .then((userData) => {
-        res.status(201).json({
-          userData,
-        });
-      })
-      .catch((err) => {
-        controllerError(err, res, "Error occurred");
-      });
-    }
-
+    
     
   } catch (error) {
     controllerError(error, res, "Error occurred");
