@@ -1,5 +1,6 @@
 const UserModel = require("../model/UserModel");
-const ClientModel = require("../model/Client")
+const SchedulerModel= require("../model/SchedulerModel");
+//const ClientModel = require("../model/Client");
 const bcrypt = require("bcryptjs");
 const controllerError = require("../utils/controllerError");
 const jwt = require("jsonwebtoken");
@@ -130,7 +131,37 @@ module.exports.register_client_controller = async (req, res, next) => {
     controllerError(error, res, "Error occurred");
   }
 };
+module.exports.register_scheduler_controller = async (req, res, next) => {
+  try {
+    const { Name, email, password} = req.body;
+    const userInfo = await SchedulerModel.findOne({ email });
+    if (userInfo) {
+      return res.status(401).json({
+        errors: { user: "User already exists" },
+      });
+    }
+    const hash = await bcrypt.hash(password, 10);
+      const scheduler = new SchedulerModel({
+        Name,
+        email,
+        password: hash
+      });
 
+      scheduler
+      .save()
+      .then((userData) => {
+        res.status(201).json({
+          userData,
+        });
+      })
+      .catch((err) => {
+        controllerError(err, res, "Error occurred");
+      });
+    
+  } catch (error) {
+    controllerError(error, res, "Error occurred");
+  }
+};
 //TODO: Login Controller
 
 module.exports.login__controller = async (req, res, next) => {
