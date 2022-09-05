@@ -1,7 +1,10 @@
 const {
   getStudent__controller,
   getTeacher__controller,
+  getScheduler__controller,
   deleteTeacher__controller,
+  deleteScheduler__controller,
+  edit_Scheduler_profile,
   getClient_controller,
   edit_profile,
   edit_client_profile,
@@ -25,6 +28,12 @@ router.get(
   adminAuthentication,
   getTeacher__controller
 );
+router.get(
+  "/scheduler",
+  requireLogin,
+  adminAuthentication,
+  getScheduler__controller
+  );
 
 router.get(
   "/client",
@@ -47,6 +56,13 @@ router.get(
   deleteTeacher__controller
 );
 
+router.get(
+  "/delete-scheduler/:id",
+  requireLogin,
+  adminAuthentication,
+  deleteScheduler__controller
+);
+
 router.put(
   "/client/edit-profile",
   requireLogin,
@@ -59,6 +75,18 @@ router.put(
   requireLogin,
   adminAuthentication,
   edit_profile
+);
+router.put(
+  "/edit-profile-teacher",
+  requireLogin,
+  adminAuthentication,
+  edit_profile
+);
+router.put(
+  "/edit-profile-scheduler",
+  requireLogin,
+  adminAuthentication,
+  edit_Scheduler_profile
 );
 
 module.exports = router;
