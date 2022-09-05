@@ -224,7 +224,7 @@ module.exports.edit_Scheduler_profile = async (req, res, next) => {
     }
     );
 }
-}
+
 
 module.exports.edit_client_profile = async (req, res, next) => {
     console.log(req.body)
