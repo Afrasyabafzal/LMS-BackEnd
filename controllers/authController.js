@@ -1,6 +1,6 @@
 const UserModel = require("../model/UserModel");
 const SchedulerModel= require("../model/SchedulerModel");
-//const ClientModel = require("../model/Client");
+const ClientModel = require("../model/Client");
 const bcrypt = require("bcryptjs");
 const controllerError = require("../utils/controllerError");
 const jwt = require("jsonwebtoken");
