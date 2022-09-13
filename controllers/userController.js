@@ -266,7 +266,7 @@ module.exports.edit_Scheduler_profile = async (req, res, next) => {
 
 module.exports.edit_client_profile = async (req, res, next) => {
     console.log(req.body)
-    const { _id, userName, email, NumberOfStudent, ContactNumber, Country, Fee, NumberofClasses} = req.body;
+    const { _id, userName, email, NumberOfStudent, ContactNumber, Country, Fee,FeeDate, NumberofClasses} = req.body;
         const userInfo = await ClientModel.findOne({ email });
         console.log(userInfo);
         if (userInfo && userInfo._id != _id ) {
@@ -281,6 +281,7 @@ module.exports.edit_client_profile = async (req, res, next) => {
             ContactNumber: ContactNumber,
             NumberofClasses: NumberofClasses,
             Fee: Fee,
+            FeeDate: FeeDate,
             Country: Country
         })
         .then((user) => {
