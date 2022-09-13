@@ -1,6 +1,7 @@
 const UserModel=require('../model/UserModel')
 const SchedulerModel=require('../model/SchedulerModel')
 const ClientModel = require("../model/Client")
+const TimeTableModel = require("../model/TimeTable")
 module.exports.getStudent__controller=async (req,res,next)=>{
     try {
         const studentInfo=await UserModel.find({role:"Student"})
@@ -58,7 +59,22 @@ module.exports.getClient_controller = async (req,res,next) => {
         })
     }
 }
-
+//================================================================================================
+module.exports.getTimeTable_controller = async (req,res,next) => {
+    try {
+        const timeTableInfo = await TimeTableModel.find()
+        return res.status(200).json({
+            timeTableInfo
+        })
+    }
+    catch (err) {
+        console.log(err)
+        return res.status(400).json({
+            error:"Error occurred"
+        })
+    }
+}
+//================================================================================================
 module.exports.deleteClient_controller = async (req, res, next) => {
 
     try {
@@ -133,7 +149,29 @@ module.exports.deleteTeacher__controller = async (req, res, next) => {
       });
     }
   };
-  
+  module.exports.deleteTimeTable__controller = async (req, res, next) => {
+    try {
+      const  TimeTableId  = req.params.id;
+      const user = await SchedulerModel.findOneAndDelete({ _id: TimeTableId });
+      if(user)
+      {
+        return res.status(200).json({
+            user,
+            message: "TimeTable deleted successfully"
+          });
+      }
+    else{
+            return res.status(400).json({
+                error: "Timetable NOT FOUND"
+              });
+        }
+      
+    } catch (err) {
+      return res.status(400).json({
+        error: "Something went wrong",
+      });
+    }
+  };  
   
   module.exports.edit_profile = async (req, res, next) => {
 

@@ -1,6 +1,7 @@
 const UserModel = require("../model/UserModel");
 const SchedulerModel= require("../model/SchedulerModel");
 const ClientModel = require("../model/Client");
+const TimeTableModel = require("../model/TimeTable");
 const bcrypt = require("bcryptjs");
 const controllerError = require("../utils/controllerError");
 const jwt = require("jsonwebtoken");
@@ -139,6 +140,40 @@ module.exports.register_scheduler_controller = async (req, res, next) => {
     controllerError(error, res, "Error occurred");
   }
 };
+
+//==========================================================================================================
+                                       //TimeTable Controller
+module.exports.TimeTable_controller = async (req, res, next) => {
+  try {
+    const { StartTime, EndTime, Day, teacher, student} = req.body;
+
+      const timetable = new TimeTableModel({
+        StartTime,
+        EndTime,
+        Day,
+        teacher,
+        student
+      });
+
+      timetable
+      .save()
+      .then((userData) => {
+        res.status(201).json({
+          userData,
+        });
+      })
+      .catch((err) => {
+        controllerError(err, res, "Error occurred");
+      });
+    
+  } catch (error) {
+    controllerError(error, res, "Error occurred");
+  }
+};
+
+
+
+//==========================================================================================================
 //TODO: Login Controller
 
 module.exports.login__controller = async (req, res, next) => {
