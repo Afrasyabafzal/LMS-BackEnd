@@ -26,6 +26,10 @@ const client= mongoose.Schema({
         type: Number,
         required: true
     },
+    FeeDate:{
+        type: Number,
+        required: true
+    },
     NumberofClasses:{
         type: Number,
         required: true

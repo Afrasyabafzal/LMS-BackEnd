@@ -281,6 +281,7 @@ module.exports.edit_client_profile = async (req, res, next) => {
             ContactNumber: ContactNumber,
             NumberofClasses: NumberofClasses,
             Fee: Fee,
+            FeeDate: FeeDate,
             Country: Country
         })
         .then((user) => {
