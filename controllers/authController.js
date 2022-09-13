@@ -72,7 +72,7 @@ module.exports.register__controller = async (req, res, next) => {
 module.exports.register_client_controller = async (req, res, next) => {
   try {
     console.log(req.body)
-    const { userName, email, NumberOfStudent, ContactNumber, Country, Fee, NumberofClasses} = req.body;
+    const { userName, email, NumberOfStudent, ContactNumber, Country, Fee,FeeDate, NumberofClasses} = req.body;
     
     const userInfo = await ClientModel.findOne({ email });
 
@@ -89,6 +89,7 @@ module.exports.register_client_controller = async (req, res, next) => {
         ContactNumber,
         Country,
         Fee,
+        FeeDate,
         NumberofClasses
       });
 
