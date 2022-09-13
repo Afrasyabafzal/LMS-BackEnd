@@ -2,6 +2,8 @@ const {
   getStudent__controller,
   getTeacher__controller,
   getScheduler__controller,
+  getTimeTable_controller,
+  deleteTimeTable__controller,
   deleteTeacher__controller,
   deleteScheduler__controller,
   edit_Scheduler_profile,
@@ -34,7 +36,18 @@ router.get(
   adminAuthentication,
   getScheduler__controller
   );
-
+router.get(
+    "/timetable",
+    requireLogin, 
+    adminAuthentication,
+    getTimeTable_controller
+  );
+  router.get(
+    "/timetable/delete/:id",
+    requireLogin,
+    adminAuthentication,
+    deleteTimeTable__controller
+  ); 
 router.get(
   "/client",
   requireLogin,
