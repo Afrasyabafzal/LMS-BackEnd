@@ -2,6 +2,7 @@ const {
   login__controller,
   register__controller,
   register_scheduler_controller,
+  register_student_controller,
   register_client_controller,
   TimeTable_controller
 } = require("../controllers/authController");
@@ -17,6 +18,7 @@ router.post("/login", loginValidator,login_validator,login__controller)
 
 router.post("/register",registerValidator, registerValidator.register_validator ,register__controller)
 router.post("/register-scheduler",schedulerValidator,register_scheduler_controller)
+router.post("/register-student",register_student_controller)
 router.post("/client/register",  registerValidator.register_validator, register_client_controller)
 router.post("/add-timetable",  TimeTable_controller)
 

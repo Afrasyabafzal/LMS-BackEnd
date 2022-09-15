@@ -2,9 +2,11 @@ const UserModel = require("../model/UserModel");
 const SchedulerModel= require("../model/SchedulerModel");
 const ClientModel = require("../model/Client");
 const TimeTableModel = require("../model/TimeTable");
+const StudentModel = require("../model/Student");
 const bcrypt = require("bcryptjs");
 const controllerError = require("../utils/controllerError");
 const jwt = require("jsonwebtoken");
+const cloudinary=require('../middlewares/cloudinary')
 //const { SECRET_KEY } = require("../config/keys");
 const key = process.env.SECRET_KEY
 module.exports.register__controller = async (req, res, next) => {
@@ -110,6 +112,7 @@ module.exports.register_client_controller = async (req, res, next) => {
     controllerError(error, res, "Error occurred");
   }
 };
+
 module.exports.register_scheduler_controller = async (req, res, next) => {
   try {
     const { Name, email, password} = req.body;
@@ -127,6 +130,33 @@ module.exports.register_scheduler_controller = async (req, res, next) => {
       });
 
       scheduler
+      .save()
+      .then((userData) => {
+        res.status(201).json({
+          userData,
+        });
+      })
+      .catch((err) => {
+        controllerError(err, res, "Error occurred");
+      });
+    
+  } catch (error) {
+    controllerError(error, res, "Error occurred");
+  }
+};
+module.exports.register_student_controller = async (req, res, next) => {
+  try {
+    const { hobby, age, grade,user} = req.body;
+   const pic=await cloudinary.uploader.upload(req.file.path);
+      const student = new StudentModel({
+        hobby,
+        age,
+        picture: pic.secure_url,
+        grade,
+        user
+      });
+
+      student
       .save()
       .then((userData) => {
         res.status(201).json({

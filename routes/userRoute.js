@@ -1,5 +1,6 @@
 const {
   getStudent__controller,
+  getStudentName__controller,
   getTeacher__controller,
   getScheduler__controller,
   getTimeTable_controller,
@@ -23,7 +24,11 @@ router.get(
   adminAuthentication,
   getStudent__controller
 );
-
+router.get(
+  "/student-profile/:id",
+   requireLogin,
+  getStudentName__controller
+);
 router.get(
   "/teacher",
   requireLogin,
