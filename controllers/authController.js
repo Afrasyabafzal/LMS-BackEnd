@@ -2,6 +2,7 @@ const UserModel = require("../model/UserModel");
 const SchedulerModel= require("../model/SchedulerModel");
 const ClientModel = require("../model/Client");
 const TimeTableModel = require("../model/TimeTable");
+const FeeModel = require("../model/FeeModel");
 const bcrypt = require("bcryptjs");
 const controllerError = require("../utils/controllerError");
 const jwt = require("jsonwebtoken");
@@ -105,7 +106,28 @@ module.exports.register_client_controller = async (req, res, next) => {
         controllerError(err, res, "Error occurred");
       });
     
-    
+      const fee= new FeeModel({
+        paid: {
+          january: false,
+          february: false,
+          march: false,
+          april: false,
+          may: false,
+          june: false,
+          july: false,
+          august: false,
+          september: false,
+          october: false,
+          november: false,
+          december: false
+        },
+        client: user._id
+      })
+      fee.save()
+      .catch((err) => {
+        controllerError(err, res, "Error occurred");
+      });
+
   } catch (error) {
     controllerError(error, res, "Error occurred");
   }
