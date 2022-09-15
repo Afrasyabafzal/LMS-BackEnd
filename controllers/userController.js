@@ -15,7 +15,20 @@ module.exports.getStudent__controller=async (req,res,next)=>{
         })
     }
 }
-
+module.exports.getStudentName__controller=async (req,res,next)=>{
+  try {
+    const  userId  = req.params.id;
+      const studentInfo=await UserModel.findOne({_id: userId})
+      return res.status(200).json({
+          studentInfo
+      })
+  } catch (err) {
+      console.log(err)
+      return res.status(400).json({
+          error: "Error occurred"
+      })
+  }
+}
 
 module.exports.getTeacher__controller=async (req,res,next)=>{
     try {
