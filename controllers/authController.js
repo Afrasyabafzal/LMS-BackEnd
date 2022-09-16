@@ -146,21 +146,22 @@ module.exports.register_scheduler_controller = async (req, res, next) => {
 };
 module.exports.register_student_controller = async (req, res, next) => {
   try {
-    const { hobby, age, grade,user} = req.body;
-   const pic=await cloudinary.uploader.upload(req.file.path);
+    const { hobby, age, grade,user,dob} = req.body;
+   const pic=await cloudinary.uploader.upload(req.file.path)
       const student = new StudentModel({
         hobby,
         age,
         picture: pic.secure_url,
         grade,
-        user
+        user,
+        dob
       });
 
       student
       .save()
-      .then((userData) => {
-        res.status(201).json({
-          userData,
+      .then((result) => {
+       return  res.status(201).json({
+          result,
         });
       })
       .catch((err) => {
