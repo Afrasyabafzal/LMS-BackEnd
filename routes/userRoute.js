@@ -10,6 +10,7 @@ const {
   edit_Scheduler_profile,
   getClient_controller,
   edit_profile,
+  edit_Timetable,
   edit_client_profile,
   deleteClient_controller
 } = require("../controllers/userController");
@@ -106,5 +107,10 @@ router.put(
   adminAuthentication,
   edit_Scheduler_profile
 );
-
+router.put(
+  "/edit-timetable",
+  requireLogin,
+  adminAuthentication,
+  edit_Timetable
+);
 module.exports = router;

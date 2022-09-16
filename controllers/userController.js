@@ -165,7 +165,8 @@ module.exports.deleteTeacher__controller = async (req, res, next) => {
   module.exports.deleteTimeTable__controller = async (req, res, next) => {
     try {
       const  TimeTableId  = req.params.id;
-      const user = await SchedulerModel.findOneAndDelete({ _id: TimeTableId });
+      console.log(TimeTableId)
+      const user = await TimeTableModel.findOneAndDelete({ _id: TimeTableId });
       if(user)
       {
         return res.status(200).json({
@@ -312,3 +313,34 @@ module.exports.edit_client_profile = async (req, res, next) => {
 
 }
 
+module.exports.edit_Timetable = async (req, res, next) => {
+  console.log(req.body)
+  const { _id, StartTime, EndTime, Day, teacher,student} = req.body;
+      const userInfo = await TimeTableModel.findOne({ _id });
+      console.log(userInfo);
+      if (userInfo && userInfo._id != _id ) {
+        return res.status(401).json({
+          errors: { user: "timeTable already exists" },
+        });
+      }
+      const User = await TimeTableModel.findByIdAndUpdate(_id, {
+          StartTime: StartTime,
+          EndTime: EndTime,
+          Day: Day,
+          teacher: teacher,
+          student: student
+      })
+      .then((user) => {
+          console.log(user)
+          return res.status(200).json({
+              user,
+              message: "User updated successfully"
+          });
+      }).catch((err) => {
+          return res.status(400).json({
+              error: "Error occurred"
+          });
+      }
+      );
+
+}
