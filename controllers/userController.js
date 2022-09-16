@@ -2,6 +2,7 @@ const UserModel=require('../model/UserModel')
 const SchedulerModel=require('../model/SchedulerModel')
 const ClientModel = require("../model/Client")
 const TimeTableModel = require("../model/TimeTable")
+const StudentModel = require("../model/Student");
 module.exports.getStudent__controller=async (req,res,next)=>{
     try {
         const studentInfo=await UserModel.find({role:"Student"})
@@ -344,3 +345,12 @@ module.exports.edit_Timetable = async (req, res, next) => {
       );
 
 }
+module.exports.getStudent__controller = async (req, res, next) => {
+  
+    console.log(req.params);
+    const { ID } = req.params;
+    const user = await StudentModel.findOne({ ID });
+    return res.status(200).json({
+      user,
+    });
+};

@@ -9,6 +9,7 @@ const {
   deleteScheduler__controller,
   edit_Scheduler_profile,
   getClient_controller,
+  getStudent_controller,
   edit_profile,
   edit_Timetable,
   edit_client_profile,
@@ -81,7 +82,11 @@ router.get(
   adminAuthentication,
   deleteScheduler__controller
 );
-
+router.get(
+  "/get-student/:id",
+  // requireLogin,
+  getStudent__controller
+);
 router.put(
   "/client/edit-profile",
   requireLogin,
