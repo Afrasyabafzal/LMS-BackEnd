@@ -345,7 +345,7 @@ module.exports.edit_Timetable = async (req, res, next) => {
       );
 
 }
-module.exports.getStudent__controller = async (req, res, next) => {
+module.exports.getProfile__controller = async (req, res, next) => {
   
     console.log(req.params);
     const { ID } = req.params;
