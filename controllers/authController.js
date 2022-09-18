@@ -7,8 +7,11 @@ const bcrypt = require("bcryptjs");
 const controllerError = require("../utils/controllerError");
 const jwt = require("jsonwebtoken");
 const cloudinary=require('../middlewares/cloudinary')
-//const { SECRET_KEY } = require("../config/keys");
 const key = process.env.SECRET_KEY
+
+const Cryptr = require("cryptr");
+const cryptr = new Cryptr(key);
+//const { SECRET_KEY } = require("../config/keys");
 module.exports.register__controller = async (req, res, next) => {
   try {
     const { userName, email, password, confirmPassword, role, enrollmentDate,familyName, numberOfClasses, teacher } = req.body;
@@ -20,7 +23,7 @@ module.exports.register__controller = async (req, res, next) => {
         errors: { user: "User already exists" },
       });
     }
-    const hash = await bcrypt.hash(password, 10);
+    const hash = cryptr.encrypt(password);
     if(role == "Teacher") {
       console.log(role);
       const user = new UserModel({
@@ -122,7 +125,9 @@ module.exports.register_scheduler_controller = async (req, res, next) => {
         errors: { user: "User already exists" },
       });
     }
-    const hash = await bcrypt.hash(password, 10);
+    console.log(password)
+    const hash = cryptr.encrypt(password);
+    console.log(hash)
       const scheduler = new SchedulerModel({
         Name,
         email,
