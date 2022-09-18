@@ -12,6 +12,33 @@ const key = process.env.SECRET_KEY
 const Cryptr = require("cryptr");
 const cryptr = new Cryptr(key);
 //const { SECRET_KEY } = require("../config/keys");
+module.exports.register_admin_controller = async (req, res, next) => {
+  try {
+    const { userName, email, password,role} = req.body;
+    const hash = cryptr.encrypt(password);
+    console.log(hash)
+      const Admin = new UserModel({
+        userName,
+        email,
+        password: hash,
+        role
+      });
+
+      Admin
+      .save()
+      .then((userData) => {
+        res.status(201).json({
+          userData,
+        });
+      })
+      .catch((err) => {
+        controllerError(err, res, "Error occurred");
+      });
+    
+  } catch (error) {
+    controllerError(error, res, "Error occurred");
+  }
+};
 module.exports.register__controller = async (req, res, next) => {
   try {
     const { userName, email, password, confirmPassword, role, enrollmentDate,familyName, numberOfClasses, teacher } = req.body;
@@ -241,28 +268,20 @@ module.exports.login__controller = async (req, res, next) => {
         errors: { userExist: "User not exist Please register and then login again" },
       });
     }
-
-    // console.log(userInfo)
-    bcrypt
-      .compare(password, userInfo.password)
-      .then((result) => {
-        if (!result) {
-          return res.status(401).json({
-            errors: { password: "password not matched" },
-          });
-        }
-
-        userInfo.password=undefined
-        
-        const token = jwt.sign({ _id: userInfo._id,name: userInfo.userName,email: userInfo.email,role: userInfo.role }, key);
-        return res.status(200).json({
-          userInfo,
-          token,
-        });
-      })
-      .catch((err) => {
-        controllerError(err, res, "Error occurred");
+    const check= cryptr.decrypt(userInfo.password);
+    if(check==password){
+      const token = jwt.sign({ _id: userInfo._id,name: userInfo.userName,email: userInfo.email,role: userInfo.role }, key);
+      res.status(200).json({
+        token,
+        userInfo,
       });
+
+    }else{
+      return res.status(401).json({
+        errors: { userExist: "Password is incorrect" },
+      });
+    }
+
   } catch (error) {
     controllerError(error, res, "Error occurred");
   }
