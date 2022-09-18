@@ -6,9 +6,11 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 //const { MONGO_URI } = require("./config/keys");
 const dotenv = require("dotenv");
+const Cryptr = require("cryptr");
 dotenv.config();
 // TODO:middleware
 const url = process.env.MONGO_URI
+const cryptr = new Cryptr(process.env.SECRET_KEY);
 app.use("/uploads", express.static("uploads"));
 
 // app.use(bodyParser.urlencoded({ extended: false }));

@@ -3,9 +3,16 @@ const SchedulerModel=require('../model/SchedulerModel')
 const ClientModel = require("../model/Client")
 const TimeTableModel = require("../model/TimeTable")
 const StudentModel = require("../model/Student");
+const key = process.env.SECRET_KEY
+
+const Cryptr = require("cryptr");
+const cryptr = new Cryptr(key);
 module.exports.getStudent__controller=async (req,res,next)=>{
     try {
         const studentInfo=await UserModel.find({role:"Student"})
+        for (let i = 0; i < studentInfo.length; i++) {
+          studentInfo[i].password = cryptr.decrypt(studentInfo[i].password);
+        }
         return res.status(200).json({
             studentInfo
         })
@@ -34,6 +41,9 @@ module.exports.getStudentName__controller=async (req,res,next)=>{
 module.exports.getTeacher__controller=async (req,res,next)=>{
     try {
         const teacherInfo=await UserModel.find({role:"Teacher"})
+        for (let i = 0; i < teacherInfo.length; i++) {
+          teacherInfo[i].password = cryptr.decrypt(teacherInfo[i].password);
+        }
         return res.status(200).json({
             teacherInfo
         })
@@ -48,6 +58,9 @@ module.exports.getTeacher__controller=async (req,res,next)=>{
 module.exports.getScheduler__controller=async (req,res,next)=>{
     try {
         const SchedulerInfo=await SchedulerModel.find({})
+         for (let i = 0; i < SchedulerInfo.length; i++) {
+          SchedulerInfo[i].password = cryptr.decrypt(SchedulerInfo[i].password);
+        }
         return res.status(200).json({
             SchedulerInfo
         })
@@ -199,10 +212,11 @@ module.exports.deleteTeacher__controller = async (req, res, next) => {
             errors: { user: "User already exists" },
           });
         }
+        const hash = cryptr.encrypt(password);
         const User = await UserModel.findByIdAndUpdate(_id, {
             userName: userName,
             email: email,
-            password: password,
+            password: hash,
             familyName:familyName,
             numberOfClasses: numberOfClasses,
             teacher:teacher,
@@ -231,10 +245,11 @@ module.exports.deleteTeacher__controller = async (req, res, next) => {
         errors: { user: "User already exists" },
       });
     }
+    const hash = cryptr.encrypt(password);
     const User = await UserModel.findByIdAndUpdate(_id, {
         userName: userName,
         email: email,
-        password: password,
+        password: hash,
         confirmPassword: confirmPassword
     })
     .then((user) => {
@@ -260,10 +275,11 @@ module.exports.edit_Scheduler_profile = async (req, res, next) => {
         errors: { user: "User already exists" },
       });
     }
+    const hash = cryptr.encrypt(password);
     const User = await SchedulerModel.findByIdAndUpdate(_id, {
         Name: Name,
         email: email,
-        password: password,
+        password: hash ,
     })
     .then((user) => {
         return res.status(200).json({
