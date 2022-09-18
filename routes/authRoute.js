@@ -1,6 +1,7 @@
 const {
   login__controller,
   register__controller,
+  register_admin_controller,
   register_scheduler_controller,
   register_student_controller,
   register_client_controller,
@@ -16,7 +17,7 @@ const { adminAuthentication } = require("../middlewares/authentication");
 const router = require("express").Router();
 
 router.post("/login", loginValidator,login_validator,login__controller)
-
+router.post("/register-admin",register_admin_controller)
 router.post("/register",registerValidator, registerValidator.register_validator ,register__controller)
 router.post("/register-scheduler",schedulerValidator,register_scheduler_controller)
 router.post("/register-student",upload.single("img"),register_student_controller)
