@@ -133,6 +133,10 @@ module.exports.deleteTeacher__controller = async (req, res, next) => {
     try {
       const  userId  = req.params.id;
       const user = await UserModel.findOneAndDelete({ _id: userId });
+      if(user.role == "Student")
+        var user1 = await TimeTableModel.deleteMany({student:user._id})
+      else
+        var user1 = await TimeTableModel.deleteMany({teacher:user._id})
       if(user)
       {
         return res.status(200).json({

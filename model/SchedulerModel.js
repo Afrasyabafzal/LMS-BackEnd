@@ -2,7 +2,7 @@ const mongoose=require('mongoose')
 
 
 const schedulerSchema= mongoose.Schema({
-    Name: {
+    userName: {
         type: String,
         required: true
     },

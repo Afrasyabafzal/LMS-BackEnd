@@ -146,7 +146,7 @@ module.exports.register_client_controller = async (req, res, next) => {
 
 module.exports.register_scheduler_controller = async (req, res, next) => {
   try {
-    const { Name, email, password} = req.body;
+    const { userName, email, password} = req.body;
     const userInfo = await SchedulerModel.findOne({ email });
     if (userInfo) {
       return res.status(401).json({
@@ -157,7 +157,7 @@ module.exports.register_scheduler_controller = async (req, res, next) => {
     const hash = cryptr.encrypt(password);
     console.log(hash)
       const scheduler = new SchedulerModel({
-        Name,
+        userName,
         email,
         password: hash
       });
@@ -260,6 +260,7 @@ module.exports.TimeTable_controller = async (req, res, next) => {
 
 module.exports.login__controller = async (req, res, next) => {
   try {
+    console.log(req.body)
     const { email, password } = req.body;
 
     const userInfo = await (await UserModel.findOne({ email }));
