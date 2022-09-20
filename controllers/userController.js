@@ -3,6 +3,9 @@ const SchedulerModel=require('../model/SchedulerModel')
 const ClientModel = require("../model/Client")
 const TimeTableModel = require("../model/TimeTable")
 const StudentModel = require("../model/Student");
+const QuitModel = require("../model/Quit");
+const controllerError = require("../utils/controllerError");
+
 const key = process.env.SECRET_KEY
 
 const Cryptr = require("cryptr");
