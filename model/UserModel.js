@@ -17,6 +17,10 @@ const userSchema= mongoose.Schema({
     enrollmentDate:{
         type: Date,
     },
+    zoomID:{
+        type: String,
+
+    },
     // Client:{
     //     type:mongoose.Schema.Types.ObjectId,
     //     required: true
