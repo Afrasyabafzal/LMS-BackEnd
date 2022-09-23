@@ -15,7 +15,7 @@ const {
   edit_client_profile,
   deleteClient_controller
 } = require("../controllers/userController");
-const {getQuitStudent__controller}=require("../controllers/quitController")
+const {getQuitStudent__controller, getHoldStudent__controller}=require("../controllers/quitAndHoldController")
 const { adminAuthentication } = require("../middlewares/authentication");
 const { requireLogin } = require("../middlewares/requireLogin");
 
@@ -26,7 +26,12 @@ router.get(
   adminAuthentication,
   getQuitStudent__controller
 );
-
+router.get(
+  "/get-hold-student",
+  requireLogin,
+  adminAuthentication,
+  getHoldStudent__controller
+);
 router.get(
   "/student",
   requireLogin,
