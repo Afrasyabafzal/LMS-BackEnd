@@ -6,6 +6,7 @@ const {
   register_student_controller,
   register_client_controller,
   quit_student,
+  hold_student,
   TimeTable_controller
 } = require("../controllers/authController");
 const upload = require("../middlewares/multer");
@@ -27,5 +28,6 @@ router.post("/register-student",upload.single("img"),register_student_controller
 router.post("/client/register",  registerValidator.register_validator, register_client_controller)
 router.post("/add-timetable",  TimeTable_controller)
 router.post("/quit-student",quit_student)
+router.post("/hold-student",hold_student)
 
 module.exports = router;

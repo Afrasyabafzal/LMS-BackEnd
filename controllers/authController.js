@@ -4,6 +4,7 @@ const ClientModel = require("../model/Client");
 const TimeTableModel = require("../model/TimeTable");
 const StudentModel = require("../model/Student");
 const QuitModel = require("../model/Quit");
+const HoldModel = require("../model/Hold");
 const bcrypt = require("bcryptjs");
 const controllerError = require("../utils/controllerError");
 const jwt = require("jsonwebtoken");
@@ -13,6 +14,46 @@ const key = process.env.SECRET_KEY
 const Cryptr = require("cryptr");
 const cryptr = new Cryptr(key);
 //const { SECRET_KEY } = require("../config/keys");
+module.exports.hold_student=async(req,res,next)=>{
+  try{
+    const { _id,userName, email, password, confirmPassword, role, enrollmentDate,zoomID,familyName, numberOfClasses, teacher,reason,returnDate } = req.body;
+    console.log(userName);
+    const hash = cryptr.encrypt(password);
+    const user1 =  await UserModel.findOneAndDelete({ _id: _id });
+    const user = await new HoldModel({
+      _id,
+      userName,
+      email,
+      password: hash,
+      enrollmentDate,
+      zoomID,
+      familyName,
+      numberOfClasses,
+      teacher,
+      role,
+      reason,
+      returnDate
+    });
+
+    user
+    .save()
+    .then((userData) => {
+      res.status(201).json({
+        userData,
+        
+      });
+    })
+    .catch((err) => {
+      controllerError(err, res, "Error occurred");
+    });
+  } catch (error) {
+    return res.status(400).json({
+      error: "Something went wrong",
+    });
+  }
+
+};
+
 module.exports.quit_student=async(req,res,next)=>{
   try{
     const { _id,userName, email, password, confirmPassword, role, enrollmentDate,zoomID,familyName, numberOfClasses, teacher,reason } = req.body;
