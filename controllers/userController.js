@@ -378,3 +378,33 @@ module.exports.getProfile__controller = async (req, res, next) => {
       user,
     });
 };
+
+module.exports.get_Student_timeTable = async (req, res, next) => {
+  try {
+        const timeTable = await TimeTableModel.find({student:"632658d9c9055915649b97e9"});
+      console.log(timeTable);
+      const temp =[{
+        TeacherName:"",
+        startTime:"",
+        endTime:"",
+        Day:"",
+      }]
+      for(i=0; i<timeTable.length; i++){
+        const t = await UserModel.findOne({ _id:timeTable[i].teacher})
+        temp[i].TeacherName = t.userName
+        temp[i].startTime = timeTable[i].StartTime
+        temp[i].endTime = timeTable[i].EndTime
+        temp[i].Day = timeTable[i].Day
+      }
+      return res.status(200).json({
+          message:"Success",
+          TimeTable:temp
+      })
+    }
+    catch (err){
+      return res.status(400).json({
+        error: "Error occurred",
+        err
+    });
+    }
+}
