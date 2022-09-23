@@ -32,6 +32,9 @@ const quitSchema= mongoose.Schema({
     role:{
         type: String,
         default: "Admin"
+    },
+    reason:{
+        type: String,
     }
 },{timestamps: true})
 

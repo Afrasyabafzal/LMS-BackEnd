@@ -15,10 +15,17 @@ const {
   edit_client_profile,
   deleteClient_controller
 } = require("../controllers/userController");
+const {getQuitStudent__controller}=require("../controllers/quitController")
 const { adminAuthentication } = require("../middlewares/authentication");
 const { requireLogin } = require("../middlewares/requireLogin");
 
 const router = require("express").Router();
+router.get(
+  "/quit-student",
+  requireLogin,
+  adminAuthentication,
+  getQuitStudent__controller
+);
 
 router.get(
   "/student",

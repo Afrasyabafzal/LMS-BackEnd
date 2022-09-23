@@ -15,9 +15,8 @@ const cryptr = new Cryptr(key);
 //const { SECRET_KEY } = require("../config/keys");
 module.exports.quit_student=async(req,res,next)=>{
   try{
-
-    const { _id,userName, email, password, confirmPassword, role, enrollmentDate,zoomID,familyName, numberOfClasses, teacher } = req.body;
-    console.log(role);
+    const { _id,userName, email, password, confirmPassword, role, enrollmentDate,zoomID,familyName, numberOfClasses, teacher,reason } = req.body;
+    console.log(userName);
     const hash = cryptr.encrypt(password);
     const user1 =  await UserModel.findOneAndDelete({ _id: _id });
     const user = await new QuitModel({
@@ -31,6 +30,7 @@ module.exports.quit_student=async(req,res,next)=>{
       numberOfClasses,
       teacher,
       role,
+      reason
     });
 
     user
