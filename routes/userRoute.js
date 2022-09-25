@@ -40,7 +40,7 @@ router.get(
   getStudent__controller
 );
 router.get(
-  "/studentTimeTable",
+  "/student/TimeTable/:id",
   requireLogin,
   get_Student_timeTable
 );
