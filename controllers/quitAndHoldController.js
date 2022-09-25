@@ -45,3 +45,39 @@ module.exports.getHoldStudent__controller=async (req,res,next)=>{
     }
 }
 
+module.exports.revert_Student__controller = async (req, res, next) => {
+    try {
+      const {_id, userName, email, password, confirmPassword, role, enrollmentDate,zoomID,familyName, numberOfClasses, teacher } = req.body;
+      //console.log(role);
+      const user1 =  await HoldModel.findOneAndDelete({ _id: _id });
+      const hash = cryptr.encrypt(password);
+        const user = new UserModel({
+          _id,
+          userName,
+          email,
+          password: hash,
+          enrollmentDate,
+          zoomID,
+          familyName,
+          numberOfClasses,
+          teacher,
+          role
+        });
+  
+        user
+        .save()
+        .then((userData) => {
+          res.status(201).json({
+            userData,
+          });
+        })
+        .catch((err) => {
+          controllerError(err, res, "Error occurred");
+        });
+  
+      
+    } catch (error) {
+      controllerError(error, res, "Error occurred");
+    }
+  };
+  
