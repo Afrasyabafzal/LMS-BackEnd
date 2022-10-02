@@ -8,6 +8,8 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const Cryptr = require("cryptr");
 dotenv.config();
+var cron = require('node-cron');
+
 // TODO:middleware
 const url = process.env.MONGO_URI
 const cryptr = new Cryptr(process.env.SECRET_KEY);
@@ -38,6 +40,10 @@ if (process.env.NODE_ENV == 'production') {
       res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
   })
 }
+
+cron.schedule('* * * * *', () => {
+  console.log('running a task every minute');
+});
 
 //Database and server created
 
