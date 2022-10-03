@@ -45,7 +45,7 @@ router.get(
   get_Student_timeTable
 );
 router.get(
-  "/student-profile/:id",
+  "/get-user/:id",
    requireLogin,
   getStudentName__controller
 );
