@@ -6,6 +6,9 @@ const courseSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    noOfClasses: {
+      type: Number,
+    },
     courseDescription: {
       type: String,
       required: true,
@@ -14,11 +17,6 @@ const courseSchema = mongoose.Schema(
     courseThumbnail: {
       type: String,
       required: true,
-    },
-
-    createdAt: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
     },
   },
   {
