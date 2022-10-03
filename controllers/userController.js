@@ -370,13 +370,18 @@ module.exports.edit_Timetable = async (req, res, next) => {
 
 }
 module.exports.getProfile__controller = async (req, res, next) => {
-  
+  try{
     console.log(req.params);
     const { ID } = req.params;
     const user = await StudentModel.findOne({ ID });
     return res.status(200).json({
       user,
     });
+  } catch (err) {
+    return res.status(400).json({
+      error: "Something went wrong",
+    });
+  }
 };
 
 module.exports.get_Student_timeTable = async (req, res, next) => {
