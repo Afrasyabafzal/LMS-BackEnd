@@ -121,7 +121,7 @@ module.exports.register_admin_controller = async (req, res, next) => {
 };
 module.exports.register__controller = async (req, res, next) => {
   try {
-    const { userName, email, password, confirmPassword, role, enrollmentDate,zoomID,familyName, numberOfClasses, teacher } = req.body;
+    const { userName, email, password, confirmPassword, role, enrollmentDate,zoomID,course,familyName, numberOfClasses, teacher } = req.body;
     console.log(role);
     const userInfo = await UserModel.findOne({ email });
 
@@ -159,6 +159,7 @@ module.exports.register__controller = async (req, res, next) => {
         password: hash,
         enrollmentDate,
         zoomID,
+        course,
         familyName,
         numberOfClasses,
         teacher,

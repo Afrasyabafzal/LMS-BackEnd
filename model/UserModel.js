@@ -21,10 +21,10 @@ const userSchema= mongoose.Schema({
         type: String,
 
     },
-    // Client:{
-    //     type:mongoose.Schema.Types.ObjectId,
-    //     required: true
-    // },
+    course:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'Course'
+    },
     familyName:{
         type:String
     },
