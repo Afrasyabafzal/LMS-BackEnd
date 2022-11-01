@@ -260,20 +260,18 @@ module.exports.register_scheduler_controller = async (req, res, next) => {
 };
 module.exports.register_student_controller = async (req, res, next) => {
   try {
-    //console.log(req.body)
+    console.log(req.body)
     const { hobby, age, grade,user,dob} = req.body;
     const check = await StudentModel.findOne({ user:user });
     if(check){
       //update
-      if(req.file){
-        
+      if(req.file){  
         const pic = await cloudinary.uploader.upload(req.file.path);
         const res =await StudentModel.findByIdAndUpdate(check._id,{hobby:hobby,age:age,picture:pic.secure_url,grade:grade,dob:dob})
         console.log(res)
       } else {
         const res =await StudentModel.findByIdAndUpdate(check._id,{hobby:hobby,age:age,grade:grade,dob:dob})
-     // const res = StudentModel.findOneAndUpdate({user:user},{hobby:hobby,age:age,grade:grade,dob:dob})
-      console.log(res)
+        console.log(res)
       }
     }
   else{ 
