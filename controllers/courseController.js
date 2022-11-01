@@ -90,3 +90,33 @@ module.exports.deleteCourse__Controller = async (req, res, next) => {
     });
   }
 };
+module.exports.editCourse__Controller = async (req, res, next) => {
+  try {
+    const { courseId, courseName, noOfClasses, courseDescription } = req.body;
+    if(req.file){  
+      const pic = await cloudinary.uploader.upload(req.file.path);
+      const course = await CourseModel.findOneAndUpdate(
+        { _id: courseId },
+        { courseName, noOfClasses, courseDescription, courseThumbnail: pic.secure_url }
+      );
+      return res.status(200).json({
+        course,
+      });
+
+
+    } else {
+      const course = await CourseModel.findOneAndUpdate(
+        { _id: courseId },
+        { courseName, noOfClasses, courseDescription }
+      );
+      return res.status(200).json({
+        course,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({
+      error: "Something went wrong",
+    });
+  }
+};

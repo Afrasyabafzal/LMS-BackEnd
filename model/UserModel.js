@@ -25,6 +25,9 @@ const userSchema= mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref: 'Course'
     },
+    fee:{
+        type: Number,
+    },
     familyName:{
         type:String
     },
