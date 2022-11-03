@@ -25,6 +25,10 @@ const userSchema= mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref: 'Course'
     },
+    scheduler:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'Scheduler'
+    },
     fee:{
         type: Number,
     },

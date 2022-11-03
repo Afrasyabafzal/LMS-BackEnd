@@ -10,7 +10,9 @@ const controllerError = require("../utils/controllerError");
 const jwt = require("jsonwebtoken");
 const cloudinary=require('../middlewares/cloudinary')
 const key = process.env.SECRET_KEY
-
+const {
+  TimeTable_controller
+} = require("./authController");
 const Cryptr = require("cryptr");
 const cryptr = new Cryptr(key);
 //const { SECRET_KEY } = require("../config/keys");
@@ -121,7 +123,7 @@ module.exports.register_admin_controller = async (req, res, next) => {
 };
 module.exports.register__controller = async (req, res, next) => {
   try {
-    const { userName, email, password, confirmPassword, role, enrollmentDate,zoomID,course,fee,familyName, numberOfClasses, teacher } = req.body;
+    const { userName, email, password, confirmPassword, role,scheduler, enrollmentDate,zoomID,course,fee,familyName, numberOfClasses, teacher ,StartTime, EndTime, Day} = req.body;
     console.log(role);
     const userInfo = await UserModel.findOne({ email });
 
@@ -137,6 +139,7 @@ module.exports.register__controller = async (req, res, next) => {
         userName,
         email,
         password: hash,
+        scheduler,
         role
       });
 
@@ -170,6 +173,8 @@ module.exports.register__controller = async (req, res, next) => {
       user
       .save()
       .then((userData) => {
+        //call timetable controller
+        AddTimetable(req,user);
         res.status(201).json({
           userData,
         });
@@ -184,7 +189,33 @@ module.exports.register__controller = async (req, res, next) => {
     controllerError(error, res, "Error occurred");
   }
 };
+//funtion to add timetable
+function AddTimetable(req,user,res){
+  try {
+    const { StartTime, EndTime, Day, teacher} = req.body;
 
+
+      const timetable = new TimeTableModel({
+        StartTime,
+        EndTime,
+        Day,
+        teacher,
+        student:user._id
+      });
+
+      timetable
+      .save()
+      .then((userData) => {
+        console.log("timetable added");
+      })
+      .catch((err) => {
+        controllerError(err, res, "Error occurred");
+      });
+    
+  } catch (error) {
+    controllerError(error, res, "Error occurred");
+  }
+}
 module.exports.register_client_controller = async (req, res, next) => {
   try {
     console.log(req.body)
@@ -305,16 +336,17 @@ module.exports.register_student_controller = async (req, res, next) => {
 
 //==========================================================================================================
                                        //TimeTable Controller
-module.exports.TimeTable_controller = async (req, res, next) => {
+module.exports.TimeTable_controller = async (req,user, res, next) => {
   try {
-    const { StartTime, EndTime, Day, teacher, student} = req.body;
+    const { StartTime, EndTime, Day, teacher} = req.body;
+
 
       const timetable = new TimeTableModel({
         StartTime,
         EndTime,
         Day,
         teacher,
-        student
+        student:user._id
       });
 
       timetable

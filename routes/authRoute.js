@@ -29,7 +29,7 @@ router.post("/register",registerValidator, registerValidator.register_validator 
 router.post("/register-scheduler",schedulerValidator,register_scheduler_controller)
 router.post("/register-student",upload.single("img"),register_student_controller)
 router.post("/client/register",  registerValidator.register_validator, register_client_controller)
-router.post("/add-timetable",  TimeTable_controller)
+//router.post("/add-timetable",  TimeTable_controller)
 router.post("/quit-student",quit_student)
 router.post("/hold-student",hold_student)
 
