@@ -26,6 +26,7 @@ app.use(cors());
 
 app.use("/auth", require("./routes/authRoute"));
 app.use("/", require("./routes/courseRoute"));
+app.use("/class",require("./routes/attendenceRoute"))
 app.use("/users", require("./routes/userRoute"));
 app.use("/profile", require("./routes/profileRoute"));
 app.use("/enroll-course", require("./routes/enrollRoute"));
@@ -41,7 +42,8 @@ if (process.env.NODE_ENV == 'production') {
 }
 
 cron.schedule('* * * * *', () => {
-  console.log('running a task every minute');
+  const date = new Date();
+  console.log(date.getHours())
 });
 
 //Database and server created
