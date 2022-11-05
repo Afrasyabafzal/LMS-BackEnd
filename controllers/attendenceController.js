@@ -44,8 +44,10 @@ module.exports.generateReport = async (req,res)=> {
             const d = new Date(HeldClasses[i].dateofAttendence)
             const timeTable = await TimeTableModel.findOne({_id:HeldClasses[i].AttedendedClass})
             console.log(timeTable)
-            const teacher = await UserModel.findOne({teacher:timeTable.teacher})
-            const student = await UserModel.findOne({student:timeTable.student})
+            const teacher = await UserModel.findOne({_id:timeTable.teacher})
+            const student = await UserModel.findOne({_id:timeTable.student})
+            console.log(teacher)
+            console.log(student)
             tmp.push({
                 Teacher: teacher.userName,
                 Student: student.userName,
