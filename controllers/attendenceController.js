@@ -1,30 +1,10 @@
 const ClassAttendenceModel = require("../model/ClassAttendence")
+const TimeTableModel = require("../model/TimeTable")
+const UserModel=require('../model/UserModel')
 const controllerError = require("../utils/controllerError");
 const ejs = require("ejs");
 const pdf = require("html-pdf");
 const path = require("path");
-let students = [
-    {name: "Joy",
-     email: "joy@example.com",
-     city: "New York",
-     country: "USA"},
-    {name: "John",
-     email: "John@example.com",
-     city: "San Francisco",
-     country: "USA"},
-    {name: "Clark",
-     email: "Clark@example.com",
-     city: "Seattle",
-     country: "USA"},
-    {name: "Watson",
-     email: "Watson@example.com",
-     city: "Boston",
-     country: "USA"},
-    {name: "Tony",
-     email: "Tony@example.com",
-     city: "Los Angels",
-     country: "USA"
- }];
 
 module.exports.add_attendence = async (req,res,next)=>{
     console.log(req.body)
@@ -56,29 +36,54 @@ module.exports.add_attendence = async (req,res,next)=>{
 }
 
 module.exports.generateReport = async (req,res)=> {
-    ejs.renderFile(path.join(__dirname, '../templates/', "classReport.ejs"), {students: students}, (err, data) => {
-        if (err) {
-              res.send(err);
-        } else {
-            let options = {
-                "height": "11.25in",
-                "width": "8.5in",
-                "header": {
-                    "height": "20mm"
-                },
-                "footer": {
-                    "height": "20mm",
-                },
-            };
-            pdf.create(data, options).toFile("report.pdf", function (err, data) {
-                if (err) {
-                    res.send(err);
-                } else {
-                    res.send("File created successfully");
-                }
-            });
+    try{
+        const HeldClasses = await ClassAttendenceModel.find()
+        console.log(HeldClasses)
+        const tmp = []
+        for(let i = 0; i < HeldClasses.length; i++){
+            const d = new Date(HeldClasses[i].dateofAttendence)
+            const timeTable = await TimeTableModel.findOne({_id:HeldClasses[i].AttedendedClass})
+            console.log(timeTable)
+            const teacher = await UserModel.findOne({teacher:timeTable.teacher})
+            const student = await UserModel.findOne({student:timeTable.student})
+            tmp.push({
+                Teacher: teacher.userName,
+                Student: student.userName,
+                Dua: HeldClasses[i].Dua,
+                courseCovered: HeldClasses[i].courseCovered,
+                dateOfClass: d.toISOString().slice(0,10),
+                Status: HeldClasses[i].Held ? "Held" : "Not Held"
+            })
         }
-    });
+        ejs.renderFile(path.join(__dirname, '../templates/', "classReport.ejs"), {tmp: tmp}, (err, data) => {
+            if (err) {
+                  res.send(err);
+            } else {
+                let options = {
+                    "height": "11.25in",
+                    "width": "8.5in",
+                    "header": {
+                        "height": "40mm"
+                    },
+                    "footer": {
+                        "height": "20mm",
+                    },
+                };
+                pdf.create(data, options).toFile("report.pdf", function (err, data) {
+                    if (err) {
+                        res.send(err);
+                    } else {
+                        res.send("File created successfully");
+                    }
+                });
+            }
+        });
+
+    }
+    catch(err){
+
+    }
+    
 }
 
 module.exports.downloadPDF = async (req,res)=> {

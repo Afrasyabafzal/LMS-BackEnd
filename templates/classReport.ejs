@@ -13,11 +13,31 @@
     <body>
         <div style="width: 85%; margin: 0 7.5%;">
             <div style="text-align: center; padding-left: 50px;">            
-                <h3>Student Report</h5>
+                <h1>Class Held Report</h1>
                 <table>
-                <% if (students.length > 0) { %>
-                    <% students.forEach(student => {%>
-                       <tr><td><%= student.name %></td><td><%= student.email %></td><td><%= student.city %></td><td><%=student.country %></td></tr>
+                    <tr>
+                        <th>
+                            Student Name
+                        </th>
+                        <th>
+                            Teacher Name
+                        </th>
+                        <th>
+                            Date of Class
+                        </th>
+                        <th>
+                            Dua
+                        </th>
+                        <th>
+                            Course Covered
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                    </tr>
+                <% if (tmp.length > 0) { %>
+                    <% tmp.forEach(student => {%>
+                       <tr><td><%= student.Student %></td><td><%= student.Teacher %></td><td><%= student.dateOfClass %></td><td><%=student.Dua %></td><td><%=student.courseCovered %></td><td><%=student.Status %></td></tr>
                     <%  });%>
                 <% }%>
                 </table>
