@@ -23,7 +23,7 @@ router.get("/get-courses", requireLogin, getCourses__controller);
 
 router.get("/get-course/:courseId", requireLogin, getOneCourse__controller)
 
-router.delete('/delete',requireLogin,adminAuthentication,deleteCourse__Controller)
+router.delete('/delete-course/:courseId',requireLogin,adminAuthentication,deleteCourse__Controller)
 router.put('/edit-course',requireLogin,adminAuthentication,editCourse__Controller)
 
 module.exports = router;

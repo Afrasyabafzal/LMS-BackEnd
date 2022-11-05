@@ -76,8 +76,9 @@ module.exports.getOneCourse__controller = async (req, res, next) => {
 };
 
 module.exports.deleteCourse__Controller = async (req, res, next) => {
+  console.log("api calling")
   try {
-    const { courseId } = req.body;
+    const { courseId } = req.params;
     console.log(courseId)
     const course = await CourseModel.findOneAndDelete({ _id: courseId });
     return res.status(200).json({
