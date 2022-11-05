@@ -80,3 +80,8 @@ module.exports.generateReport = async (req,res)=> {
         }
     });
 }
+
+module.exports.downloadPDF = async (req,res)=> {
+    const file = `${__dirname}/../report.pdf`;
+    res.download(file);
+}
