@@ -71,7 +71,7 @@ module.exports.generateReport = async (req,res)=> {
                         "height": "20mm",
                     },
                 };
-                pdf.create(data, options).toFile("report.pdf", function (err, data) {
+                pdf.create(data, options).toFile("report/Report.pdf", function (err, data) {
                     if (err) {
                         res.send(err);
                     } else {
@@ -89,6 +89,6 @@ module.exports.generateReport = async (req,res)=> {
 }
 
 module.exports.downloadPDF = async (req,res)=> {
-    const file = `${__dirname}/../report.pdf`;
+    const file = `${__dirname}/../report/Report.pdf`;
     res.download(file);
 }
