@@ -23,6 +23,9 @@ const holdSchema= mongoose.Schema({
     familyName:{
         type:String
     },
+    RollNumber:{
+        type:String
+    },
     numberOfClasses:{
         type: Number,
     },

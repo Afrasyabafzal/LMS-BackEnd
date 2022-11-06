@@ -47,13 +47,13 @@ module.exports.getHoldStudent__controller=async (req,res,next)=>{
 
 module.exports.revert_Student__controller = async (req, res, next) => {
     try {
-      const {_id, userName, email, password, confirmPassword, role, enrollmentDate,zoomID,familyName, numberOfClasses, teacher } = req.body;
-      //console.log(role);
+      const {_id, userName, email, password,RollNumber, confirmPassword, role, enrollmentDate,zoomID,familyName, numberOfClasses, teacher } = req.body;
       const user1 =  await HoldModel.findOneAndDelete({ _id: _id });
       const hash = cryptr.encrypt(password);
         const user = new UserModel({
           _id,
           userName,
+          RollNumber,
           email,
           password: hash,
           enrollmentDate,

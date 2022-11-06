@@ -2,6 +2,10 @@ const mongoose=require('mongoose')
 
 
 const userSchema= mongoose.Schema({
+    RollNumber:{
+        type: String,
+        unique: true
+    },
     userName: {
         type: String,
         required: true

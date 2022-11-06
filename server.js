@@ -3,8 +3,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
-//const { MONGO_URI } = require("./config/keys");
+const mongoose = require("mongoose")
 const dotenv = require("dotenv");
 const Cryptr = require("cryptr");
 dotenv.config();
@@ -41,7 +40,7 @@ if (process.env.NODE_ENV == 'production') {
   })
 }
 
-cron.schedule('* * * * *', () => {
+cron.schedule('* * * * *', async () => {
   const date = new Date();
   console.log(date.getHours())
 });

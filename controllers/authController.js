@@ -18,14 +18,15 @@ const cryptr = new Cryptr(key);
 //const { SECRET_KEY } = require("../config/keys");
 module.exports.hold_student=async(req,res,next)=>{
   try{
-    const { _id,userName, email, password, confirmPassword, role, enrollmentDate,zoomID,familyName, numberOfClasses, teacher,reason,returnDate } = req.body;
-    console.log(userName);
+    const { _id,userName, email, password,RollNumber, confirmPassword, role, enrollmentDate,zoomID,familyName, numberOfClasses, teacher,reason,returnDate } = req.body;
+    console.log(RollNumber);
     const hash = cryptr.encrypt(password);
     const user1 =  await UserModel.findOneAndDelete({ _id: _id });
     const user = await new HoldModel({
       _id,
       userName,
       email,
+      RollNumber,
       password: hash,
       enrollmentDate,
       zoomID,
@@ -156,7 +157,13 @@ module.exports.register__controller = async (req, res, next) => {
     }
 
     if(role == "Student") {
+      
+      const date = new Date();
+      const allUser = await UserModel.find({role:"Student"});
+      const allHoldUser = await HoldModel.find()
+      RollNumber = "PRO-"+(allUser.length+allHoldUser.length+1)+"-"+date.getFullYear()
       const user = new UserModel({
+        RollNumber,
         userName,
         email,
         password: hash,
