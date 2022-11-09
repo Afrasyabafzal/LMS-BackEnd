@@ -60,7 +60,7 @@ module.exports.getTeacher__controller=async (req,res,next)=>{
 
 module.exports.getScheduler__controller=async (req,res,next)=>{
     try {
-        const SchedulerInfo=await SchedulerModel.find({})
+        const SchedulerInfo=await UserModel.find({role:"Scheduler"})
          for (let i = 0; i < SchedulerInfo.length; i++) {
           SchedulerInfo[i].password = cryptr.decrypt(SchedulerInfo[i].password);
         }
@@ -163,7 +163,7 @@ module.exports.deleteTeacher__controller = async (req, res, next) => {
   module.exports.deleteScheduler__controller = async (req, res, next) => {
     try {
       const  userId  = req.params.id;
-      const user = await SchedulerModel.findOneAndDelete({ _id: userId });
+      const user = await UserModel.findOneAndDelete({ _id: userId });
       if(user)
       {
         return res.status(200).json({
@@ -279,14 +279,14 @@ module.exports.edit_Scheduler_profile = async (req, res, next) => {
 
     console.log(req.body);    
     const { _id, Name, email, password} = req.body;
-    const userInfo = await SchedulerModel.findOne({ email });
+    const userInfo = await UserModel.findOne({ email });
     if (userInfo && userInfo._id!=_id)  {
       return res.status(401).json({
         errors: { user: "User already exists" },
       });
     }
     const hash = cryptr.encrypt(password);
-    const User = await SchedulerModel.findByIdAndUpdate(_id, {
+    const User = await UserModel.findByIdAndUpdate(_id, {
         Name: Name,
         email: email,
         password: hash ,

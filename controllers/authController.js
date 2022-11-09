@@ -267,7 +267,7 @@ module.exports.register_client_controller = async (req, res, next) => {
 module.exports.register_scheduler_controller = async (req, res, next) => {
   try {
     const { userName, email, password} = req.body;
-    const userInfo = await SchedulerModel.findOne({ email });
+    const userInfo = await UserModel.findOne({ email });
     if (userInfo) {
       return res.status(401).json({
         errors: { user: "User already exists" },
@@ -276,10 +276,11 @@ module.exports.register_scheduler_controller = async (req, res, next) => {
     console.log(password)
     const hash = cryptr.encrypt(password);
     console.log(hash)
-      const scheduler = new SchedulerModel({
+      const scheduler = new UserModel({
         userName,
         email,
-        password: hash
+        password: hash,
+        role: "Scheduler"
       });
 
       scheduler
