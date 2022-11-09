@@ -31,7 +31,7 @@ const userSchema= mongoose.Schema({
     },
     scheduler:{
         type:mongoose.Schema.Types.ObjectId,
-        ref: 'Scheduler'
+        ref: 'User'
     },
     fee:{
         type: Number,
