@@ -48,7 +48,11 @@ const userSchema= mongoose.Schema({
     role:{
         type: String,
         default: "Admin"
+    },
+    currency:{
+        type:String
     }
+
 },{timestamps: true})
 
 const UserModel=mongoose.model("User", userSchema)

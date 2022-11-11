@@ -3,7 +3,9 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const UserModel = require("./model/UserModel")
+//const { MONGO_URI } = require("./config/keys");
 const dotenv = require("dotenv");
 const Cryptr = require("cryptr");
 dotenv.config();
