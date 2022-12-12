@@ -3,11 +3,19 @@ const UserModel=require('../model/UserModel')
 
 
 const timeTableSchema= mongoose.Schema({
-    StartTime: {
+    TeacherStartTime: {
         type: String,
         required: true
     },
-    EndTime: {
+    TeacherEndTime: {
+        type: String,
+        required: true
+    },
+    StudentStartTime: {
+        type: String,
+        required: true
+    },
+    StudentEndTime: {
         type: String,
         required: true
     },

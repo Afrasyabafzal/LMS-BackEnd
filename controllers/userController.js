@@ -342,17 +342,12 @@ module.exports.edit_client_profile = async (req, res, next) => {
 
 module.exports.edit_Timetable = async (req, res, next) => {
   console.log(req.body)
-  const { _id, StartTime, EndTime, Day, teacher,student} = req.body;
-      const userInfo = await TimeTableModel.findOne({ _id });
-      console.log(userInfo);
-      if (userInfo && userInfo._id != _id ) {
-        return res.status(401).json({
-          errors: { user: "timeTable already exists" },
-        });
-      }
+  const { _id, TeacherStartTime, TeacherEndTime, StudentStartTime, StudentEndTime, Day, teacher, student} = req.body;
       const User = await TimeTableModel.findByIdAndUpdate(_id, {
-          StartTime: StartTime,
-          EndTime: EndTime,
+          TeacherStartTime: TeacherStartTime,
+          TeacherEndTime: TeacherEndTime,
+          StudentStartTime: StudentStartTime,
+          StudentEndTime: StudentEndTime,
           Day: Day,
           teacher: teacher,
           student: student
@@ -429,8 +424,8 @@ module.exports.get_Teacher_timeTable = async (req, res, next) => {
           temp.push({
             id: timeTable[i]._id,
             StudentName:t.userName,
-            startTime:timeTable[i].StartTime,
-            endTime:timeTable[i].EndTime,
+            startTime:timeTable[i].TeacherStartTime,
+            endTime:timeTable[i].TeacherEndTime,
             Day: timeTable[i].Day
           })
         } 
@@ -447,3 +442,31 @@ module.exports.get_Teacher_timeTable = async (req, res, next) => {
     });
     }
 }
+
+module.exports.get_Teacher_by_scheduler = async(req, res, next)=> {
+  try {
+      console.log(req.params)
+      const teacher = await UserModel.find({scheduler:req.params.id})
+      if(teacher){
+        return res.status(200).json({
+          message:"Success",
+          teacher
+      })
+      }
+      else {
+        return res.status(400).json({
+          error: "Error occurred",
+          err
+      });
+      }
+
+  }
+  catch(err) {
+      return res.status(400).json({
+        error: "Error occurred",
+        err
+    });
+
+  }
+}
+

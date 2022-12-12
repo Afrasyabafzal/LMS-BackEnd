@@ -5,7 +5,7 @@ const FeeSchema = mongoose.Schema(
     student:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-    }
+    },
     year: {
         type: String,
         required: true,
@@ -19,10 +19,8 @@ const FeeSchema = mongoose.Schema(
     },
     date:{
         type: Date,
-    }
-  {
+    },
     timestamps: true,
-  }
 }
 );
 

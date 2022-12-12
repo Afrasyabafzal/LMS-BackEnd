@@ -15,7 +15,8 @@ const {
   edit_client_profile,
   deleteClient_controller,
   get_Student_timeTable,
-  get_Teacher_timeTable
+  get_Teacher_timeTable,
+  get_Teacher_by_scheduler
 } = require("../controllers/userController");
 const {getQuitStudent__controller, getHoldStudent__controller}=require("../controllers/quitAndHoldController")
 const { adminAuthentication } = require("../middlewares/authentication");
@@ -47,6 +48,7 @@ router.get(
 );
 router.get(
   "/teacher/TimeTable/:id",
+  requireLogin,
   get_Teacher_timeTable
 );
 router.get(
@@ -140,5 +142,11 @@ router.put(
   requireLogin,
   adminAuthentication,
   edit_Timetable
+);
+
+router.get(
+  "/get-teacher/:id",
+  requireLogin,
+  get_Teacher_by_scheduler
 );
 module.exports = router;

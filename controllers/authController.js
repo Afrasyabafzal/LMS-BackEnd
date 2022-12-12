@@ -10,9 +10,6 @@ const controllerError = require("../utils/controllerError");
 const jwt = require("jsonwebtoken");
 const cloudinary=require('../middlewares/cloudinary')
 const key = process.env.SECRET_KEY
-const {
-  TimeTable_controller
-} = require("./authController");
 const Cryptr = require("cryptr");
 const cryptr = new Cryptr(key);
 //const { SECRET_KEY } = require("../config/keys");
@@ -181,8 +178,6 @@ module.exports.register__controller = async (req, res, next) => {
       user
       .save()
       .then((userData) => {
-        //call timetable controller
-        AddTimetable(req,user);
         res.status(201).json({
           userData,
         });
@@ -198,23 +193,29 @@ module.exports.register__controller = async (req, res, next) => {
   }
 };
 //funtion to add timetable
-function AddTimetable(req,user,res){
+module.exports.AddTimetable= async (req,res) => {
   try {
-    const { StartTime, EndTime, Day, teacher} = req.body;
+    const { TeacherStartTime,StudentStartTime, StudentEndTime, TeacherEndTime, Day, student} = req.body;
+    const teacher = await UserModel.findOne({_id:student});
+    console.log(teacher.teacher);
 
 
       const timetable = new TimeTableModel({
-        StartTime,
-        EndTime,
+        TeacherStartTime,
+        StudentStartTime,
+        StudentEndTime,
+        TeacherEndTime,
         Day,
-        teacher,
-        student:user._id
+        teacher:teacher.teacher,
+        student
       });
 
-      timetable
-      .save()
+      timetable 
+      .save() 
       .then((userData) => {
-        console.log("timetable added");
+        res.status(201).json({
+          userData,
+        });
       })
       .catch((err) => {
         controllerError(err, res, "Error occurred");
