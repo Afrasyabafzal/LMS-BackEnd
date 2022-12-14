@@ -9,6 +9,7 @@ const controllerError = require("../utils/controllerError");
 const key = process.env.SECRET_KEY
 
 const Cryptr = require("cryptr");
+const ClassAttendenceModel = require('../model/ClassAttendence');
 const cryptr = new Cryptr(key);
 module.exports.getStudent__controller=async (req,res,next)=>{
     try {
@@ -469,4 +470,51 @@ module.exports.get_Teacher_by_scheduler = async(req, res, next)=> {
 
   }
 }
+
+module.exports.get_TeacherHeldClasses_by_scheduler = async(req, res, next)=> {
+  try {
+    const HeldClasses = await ClassAttendenceModel.find()
+    const id = req.params.id
+    const tmp = []
+    for(let i = 0; i < HeldClasses.length; i++){
+        const d = new Date(HeldClasses[i].dateofAttendence)
+        const timeTable = await TimeTableModel.findOne({_id:HeldClasses[i].AttedendedClass})
+        console.log(timeTable.teacher)
+        const teacher = await UserModel.findOne({_id:timeTable.teacher})
+        if (teacher.scheduler == id){
+            const stud = await UserModel.findOne({_id:timeTable.student})
+            tmp.push({
+              userName : teacher.userName,
+              Student : stud.userName,
+              Date : d.toDateString(),
+              Slot : timeTable.TeacherStartTime + " - " + timeTable.TeacherEndTime,
+              CourseCovered : HeldClasses[i].courseCovered,
+              
+            })
+        }
+    }
+    if(tmp){
+      return res.status(200).json({
+        message:"Success",
+        tmp
+    })
+    }
+    else {
+      return res.status(400).json({
+        error: "Error occurred",
+        err
+    });
+    }
+
+  }
+  catch(err) {
+      return res.status(400).json({
+        error: "Error occurred",
+        err
+    });
+
+  }
+}
+
+
 
