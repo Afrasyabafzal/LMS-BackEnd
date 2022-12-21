@@ -31,6 +31,7 @@ app.use("/class",require("./routes/attendenceRoute"))
 app.use("/users", require("./routes/userRoute"));
 app.use("/profile", require("./routes/profileRoute"));
 app.use("/enroll-course", require("./routes/enrollRoute"));
+app.use("/fee", require("./routes/feeRoute"));
 
 //Deploy:
 

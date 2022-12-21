@@ -6,22 +6,17 @@ const FeeSchema = mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
-    year: {
-        type: String,
-        required: true,
-    },
-    month: {
+    link: {
         type: String,
     },
-    submited: {
-    type: Boolean,
-    default: false,
-    },
-    date:{
+    submissionDate:{
         type: Date,
     },
-    timestamps: true,
-}
+    paid:{
+        type: Boolean,
+        default: false
+    },
+},{timestamps: true}
 );
 
 const FeeModel = mongoose.model("Fee", FeeSchema);
