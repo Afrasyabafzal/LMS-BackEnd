@@ -81,6 +81,7 @@ router.get(
     adminAuthentication,
     deleteTimeTable__controller
   ); 
+
 router.get(
   "/client",
   requireLogin,
@@ -138,6 +139,8 @@ router.put(
   adminAuthentication,
   edit_Scheduler_profile
 );
+
+
 router.put(
   "/edit-timetable",
   requireLogin,
