@@ -348,7 +348,7 @@ module.exports.register_student_controller = async (req, res, next) => {
                                        //TimeTable Controller
 module.exports.TimeTable_controller = async (req,user, res, next) => {
   try {
-    const { StartTime, EndTime, Day, teacher} = req.body;
+    const { StartTime, EndTime, Day, teacher,student} = req.body;
 
 
       const timetable = new TimeTableModel({
@@ -375,6 +375,36 @@ module.exports.TimeTable_controller = async (req,user, res, next) => {
   }
 };
 
+//==========================================================================================================
+//Add makeup class controller
+module.exports.makeup_class_controller = async (req,user, res, next) => {
+  try {
+    const { StartTime, EndTime, Day, teacher,student} = req.body;
+
+    const timetable = new TimeTableModel({
+      StartTime,
+      EndTime,
+      Day,
+      teacher,
+      student: user._id,
+      makeup:true
+    });
+  
+    timetable
+    .save()
+    .then((userData) => {
+      res.status(201).json({
+        userData,
+      });
+    })
+    .catch((err) => {
+      controllerError(err, res, "Error occurred");
+    });
+
+  } catch (error) {
+    controllerError(error, res, "Error occurred");
+  }
+};
 
 
 //==========================================================================================================
