@@ -212,7 +212,7 @@ module.exports.deleteTeacher__controller = async (req, res, next) => {
   module.exports.edit_profile = async (req, res, next) => {
 
         console.log(req.body);    
-        const { _id, userName, email, password,zoomID,course,fee,familyName,numberOfClasses, teacher,role } = req.body;
+        const { _id, userName, email, password,zoomID,course,fee,familyName,numberOfClasses, teacher,role,FeeDate,Currency } = req.body;
         const userInfo = await UserModel.findOne({ email });
         console.log(userInfo);
         if (userInfo && userInfo._id != _id ) {
@@ -228,6 +228,8 @@ module.exports.deleteTeacher__controller = async (req, res, next) => {
             zoomID:zoomID,
             course:course,
             fee:fee,
+            FeeDate:FeeDate,
+            currency:Currency,
             familyName:familyName,
             numberOfClasses: numberOfClasses,
             teacher:teacher,
