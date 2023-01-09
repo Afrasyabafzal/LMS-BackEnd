@@ -33,6 +33,11 @@ const timeTableSchema= mongoose.Schema({
         ref: UserModel,
         required: true
     },
+    makeUp: {
+        type: Boolean,
+        default: false
+    },
+
    
 },{timestamps: true})
 
