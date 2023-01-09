@@ -10,7 +10,7 @@ const { fee_validator } = require("../middlewares/feeValidator");
 
 router.get("/getFee",requireLogin,getFee)
 router.post("/storeFee",fee_validator,storeFee)
-router.get("/downloadPDF",downloadPDF)
-router.post("/generateReport",generateReport)
+router.get("/download",downloadPDF)
+router.post("/generate",generateReport)
 
 module.exports = router;

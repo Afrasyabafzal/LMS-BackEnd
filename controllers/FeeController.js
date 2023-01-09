@@ -40,7 +40,13 @@ module.exports.storeFee = async (req, res, next) => {
 }
 module.exports.downloadPDF = async (req,res)=> {
     const file = `${__dirname}/../report/FeeReport.pdf`;
-    res.download(file);
+    if(file){
+        res.download(file);
+    }
+    else{
+        res.send("File not found")
+    }
+    
 }
 module.exports.generateReport = async (req,res)=> {
     console.log("hello")
@@ -89,7 +95,7 @@ module.exports.generateReport = async (req,res)=> {
 
     }
     catch(err){
-
+        res.send(err)
     }
     
 }
