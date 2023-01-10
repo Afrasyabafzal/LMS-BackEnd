@@ -121,8 +121,8 @@ module.exports.register_admin_controller = async (req, res, next) => {
 };
 module.exports.register__controller = async (req, res, next) => {
   try {
-    const { userName, email, password, confirmPassword, role,scheduler, enrollmentDate,zoomID,course,fee,familyName, numberOfClasses, teacher ,StartTime, EndTime, Day,currency} = req.body;
-    console.log(role);
+    const { userName, email, password, confirmPassword, role,scheduler, enrollmentDate,zoomID,course,fee,FeeDate,familyName, numberOfClasses, teacher ,StartTime, EndTime, Day,currency} = req.body;
+    // console.log(req.body);
     const userInfo = await UserModel.findOne({ email });
 
     if (userInfo) {
@@ -168,6 +168,7 @@ module.exports.register__controller = async (req, res, next) => {
         zoomID,
         course,
         fee,
+        FeeDate,
         familyName,
         numberOfClasses,
         teacher,

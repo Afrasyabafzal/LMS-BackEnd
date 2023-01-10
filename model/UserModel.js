@@ -49,6 +49,10 @@ const userSchema= mongoose.Schema({
         type: String,
         default: "Admin"
     },
+    FeeDate:{
+        type: Number,
+    },
+
     currency:{
         type:String
     }
