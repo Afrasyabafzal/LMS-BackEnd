@@ -51,7 +51,6 @@ module.exports.revert_Student__controller = async (req, res, next) => {
       const user1 =  await HoldModel.findOneAndDelete({ _id: _id });
       const hash = cryptr.encrypt(password);
         const user = new UserModel({
-          _id,
           userName,
           RollNumber,
           email,
