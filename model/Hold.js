@@ -41,7 +41,20 @@ const holdSchema= mongoose.Schema({
     },
     returnDate:{
         type: Date,
-    }
+    },
+    currency:{
+        type: String,
+    },
+    FeeDate:{
+        type: Number,
+    },
+    fee:{
+        type: Number,
+    },
+    course:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'Course'
+    },
 },{timestamps: true})
 
 const HoldModel=mongoose.model("Hold", holdSchema)

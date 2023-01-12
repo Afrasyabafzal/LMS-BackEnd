@@ -15,7 +15,7 @@ const cryptr = new Cryptr(key);
 //const { SECRET_KEY } = require("../config/keys");
 module.exports.hold_student=async(req,res,next)=>{
   try{
-    const { _id,userName, email, password,RollNumber, confirmPassword, role, enrollmentDate,zoomID,familyName, numberOfClasses, teacher,reason,returnDate } = req.body;
+    const { _id,userName, email, password,RollNumber, confirmPassword, role, enrollmentDate,zoomID,familyName, numberOfClasses, teacher,reason,returnDate, FeeDate, fee, course, currency } = req.body;
     console.log(RollNumber);
     const hash = cryptr.encrypt(password);
     const user1 =  await UserModel.findOneAndDelete({ _id: _id });
@@ -32,7 +32,12 @@ module.exports.hold_student=async(req,res,next)=>{
       teacher,
       role,
       reason,
-      returnDate
+      returnDate,
+      FeeDate,
+      fee,
+      course,
+      currency
+      
     });
 
     user
@@ -56,7 +61,7 @@ module.exports.hold_student=async(req,res,next)=>{
 
 module.exports.quit_student=async(req,res,next)=>{
   try{
-    const { _id,userName, email, password, confirmPassword, role, enrollmentDate,zoomID,familyName, numberOfClasses, teacher,reason } = req.body;
+    const { _id,userName, email, password, confirmPassword, role, enrollmentDate,zoomID,familyName, numberOfClasses, teacher,reason,FeeDate, fee, course,currency } = req.body;
     console.log(userName);
     const hash = cryptr.encrypt(password);
     const user1 =  await UserModel.findOneAndDelete({ _id: _id });
@@ -71,7 +76,11 @@ module.exports.quit_student=async(req,res,next)=>{
       numberOfClasses,
       teacher,
       role,
-      reason
+      reason,
+      FeeDate,
+      fee,
+      course,
+      currency
     });
 
     user
