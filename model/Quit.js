@@ -35,7 +35,25 @@ const quitSchema= mongoose.Schema({
     },
     reason:{
         type: String,
-    }
+    },
+    fee :{
+        type: Number,
+    },
+    course:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'Course'
+    },
+    FeeDate:{
+        type: Number,
+    },
+    currency:{
+        type: String,
+    },
+    course:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'Course'
+    },
+    
 },{timestamps: true})
 
 const QuitModel=mongoose.model("Quit", quitSchema)
