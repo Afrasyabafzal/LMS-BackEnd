@@ -13,7 +13,10 @@ const courseSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-
+    perClassRate: {
+      type: Number,
+      required: true,
+    },
     courseThumbnail: {
       type: String,
       required: true,

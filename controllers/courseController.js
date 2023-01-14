@@ -3,9 +3,9 @@ const cloudinary=require('../middlewares/cloudinary')
 
 module.exports.postCourse__controller = async (req, res, next) => {
   try {
-    const { courseName,noOfClasses,courseDescription } = req.body;
+    const { courseName,noOfClasses,courseDescription, perClassRate } = req.body;
 
-    if (!courseDescription || !courseName || !req.file) {
+    if (!courseDescription || !courseName || !req.file || !noOfClasses || !perClassRate) {
       return res.status(400).json({
         error: "Please Provide All Information",
       });
@@ -20,6 +20,7 @@ module.exports.postCourse__controller = async (req, res, next) => {
       courseName,
       noOfClasses,
       courseDescription,
+      perClassRate,
       courseThumbnail: pic.secure_url,
   
     });
@@ -93,12 +94,19 @@ module.exports.deleteCourse__Controller = async (req, res, next) => {
 };
 module.exports.editCourse__Controller = async (req, res, next) => {
   try {
-    const { courseId, courseName, noOfClasses, courseDescription } = req.body;
+    const { Id, courseName, noOfClasses, courseDescription, perClassRate } = req.body;
+    console.log(req.body)
+    if (!courseDescription || !courseName || !noOfClasses || !perClassRate) {
+      console.log("error")
+      return res.status(400).json({
+        error: "Please Provide All Information",
+      });
+    }
     if(req.file){  
       const pic = await cloudinary.uploader.upload(req.file.path);
       const course = await CourseModel.findOneAndUpdate(
-        { _id: courseId },
-        { courseName, noOfClasses, courseDescription, courseThumbnail: pic.secure_url }
+        { _id: Id },
+        { courseName, noOfClasses, courseDescription, courseThumbnail: pic.secure_url, perClassRate }
       );
       return res.status(200).json({
         course,
@@ -107,8 +115,8 @@ module.exports.editCourse__Controller = async (req, res, next) => {
 
     } else {
       const course = await CourseModel.findOneAndUpdate(
-        { _id: courseId },
-        { courseName, noOfClasses, courseDescription }
+        { _id: Id },
+        { courseName, noOfClasses, courseDescription, perClassRate }
       );
       return res.status(200).json({
         course,
