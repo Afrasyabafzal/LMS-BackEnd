@@ -38,7 +38,7 @@ router.post("/register-student",upload.single("img"),register_student_controller
 router.post("/client/register",  registerValidator.register_validator, register_client_controller)
 
 router.post("/add-timetable",requireLogin,timeTable_validator,AddTimetable)
-router.post ("add-makeUp",requireLogin,timeTable_validator,makeup_class_controller)
+router.post ("/add-makeup",requireLogin,timeTable_validator,makeup_class_controller)
 
 router.post("/quit-student",quit_validator,quit_student)
 router.post("/hold-student",hold_validator,hold_student)

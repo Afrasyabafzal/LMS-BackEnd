@@ -23,6 +23,9 @@ const Attendence = mongoose.Schema({
         type: Boolean,
         required: true,
     },
+    zoomID:{
+        type: String,
+    },
     SchedularConfirmation:{
         type: Boolean,
     },

@@ -395,8 +395,8 @@ module.exports.get_Student_timeTable = async (req, res, next) => {
         {
           temp.push({
             TeacherName:t.userName,
-            startTime:timeTable[i].StartTime,
-            endTime:timeTable[i].EndTime,
+            startTime:timeTable[i].StudentStartTime,
+            endTime:timeTable[i].StudentEndTime,
             Day: timeTable[i].Day
           })
         } 
@@ -429,7 +429,8 @@ module.exports.get_Teacher_timeTable = async (req, res, next) => {
             StudentName:t.userName,
             startTime:timeTable[i].TeacherStartTime,
             endTime:timeTable[i].TeacherEndTime,
-            Day: timeTable[i].Day
+            Day: timeTable[i].Day,
+            makeUp : timeTable[i].makeUp ? timeTable[i].makeUp : false
           })
         } 
       }
@@ -480,12 +481,14 @@ module.exports.get_TeacherHeldClasses_by_scheduler = async(req, res, next)=> {
     const tmp = []
     for(let i = 0; i < HeldClasses.length; i++){
         const d = new Date(HeldClasses[i].dateofAttendence)
+        if(!HeldClasses[i].SchedularConfirmation){
         const timeTable = await TimeTableModel.findOne({_id:HeldClasses[i].AttedendedClass})
         console.log(timeTable.teacher)
         const teacher = await UserModel.findOne({_id:timeTable.teacher})
         if (teacher.scheduler == id){
             const stud = await UserModel.findOne({_id:timeTable.student})
             tmp.push({
+              id: HeldClasses[i]._id,
               userName : teacher.userName,
               Student : stud.userName,
               Date : d.toDateString(),
@@ -494,6 +497,7 @@ module.exports.get_TeacherHeldClasses_by_scheduler = async(req, res, next)=> {
               
             })
         }
+      }
     }
     if(tmp){
       return res.status(200).json({

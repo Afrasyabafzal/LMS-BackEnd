@@ -147,6 +147,7 @@ module.exports.register__controller = async (req, res, next) => {
         email,
         password: hash,
         scheduler,
+        salary: 0,
         role
       });
 
@@ -387,17 +388,20 @@ module.exports.TimeTable_controller = async (req,user, res, next) => {
 
 //==========================================================================================================
 //Add makeup class controller
-module.exports.makeup_class_controller = async (req,user, res, next) => {
+module.exports.makeup_class_controller = async (req,res, next) => {
   try {
-    const { StartTime, EndTime, Day, teacher,student} = req.body;
+    const {TeacherStartTime,StudentStartTime,StudentEndTime,TeacherEndTime,Day,teacher,user} = req.body;
+    console.log(req.body)
 
     const timetable = new TimeTableModel({
-      StartTime,
-      EndTime,
+      TeacherStartTime,
+      StudentStartTime,
+      StudentEndTime,
+      TeacherEndTime,
       Day,
       teacher,
-      student: user._id,
-      makeup:true
+      student:user,
+      makeUp:true
     });
   
     timetable

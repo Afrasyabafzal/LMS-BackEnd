@@ -39,7 +39,6 @@ router.get(
 router.get(
   "/student",
   requireLogin,
-  adminAuthentication,
   getStudent__controller
 );
 router.get(

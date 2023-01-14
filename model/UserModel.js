@@ -2,10 +2,6 @@ const mongoose=require('mongoose')
 
 
 const userSchema= mongoose.Schema({
-    RollNumber:{
-        type: String,
-        unique: true
-    },
     userName: {
         type: String,
         required: true
@@ -52,10 +48,15 @@ const userSchema= mongoose.Schema({
     FeeDate:{
         type: Number,
     },
-
+    RollNumber:{
+        type: String,
+    },
     currency:{
         type:String
-    }
+    },
+    salary:{
+        type: Number,
+    },
 
 },{timestamps: true})
 
