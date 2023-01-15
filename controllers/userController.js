@@ -164,10 +164,11 @@ module.exports.deleteTeacher__controller = async (req, res, next) => {
   module.exports.deleteScheduler__controller = async (req, res, next) => {
     try {
       // const  userId  = req.params.id;
+      console.log(req.body)
       const {schedulerId,newSchedulerId} = req.body;
       console.log(schedulerId,newSchedulerId)
       const user = await UserModel.find({scheduler:schedulerId})
-      console.log(user)
+      // console.log(user)
 
       for (let i = 0; i < user.length; i++) {
         const user1 = await UserModel.findByIdAndUpdate(user[i]._id, {scheduler:newSchedulerId})
@@ -459,6 +460,7 @@ module.exports.get_Teacher_by_scheduler = async(req, res, next)=> {
   try {
       console.log(req.params)
       const teacher = await UserModel.find({scheduler:req.params.id})
+      console.log(teacher)
       if(teacher){
         return res.status(200).json({
           message:"Success",

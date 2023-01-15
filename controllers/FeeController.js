@@ -7,8 +7,19 @@ const path = require("path");
 module.exports.getFee = async (req, res, next) => {
     try {
         const fee = await FeeModel.find();
+        const tmp = []
+        for(let i = 0; i < fee.length; i++){
+            const student = await UserModel.findOne({_id:fee[i].student})
+            console.log(fee[i])
+            tmp.push({
+                Student: student.userName,
+                status: fee[i].paid ,
+                submissionDate: fee[i].submissionDate,
+            })
+        }
+
         res.status(200).json({
-        fee,
+        fee:tmp,
         });
     } catch (error) {
         controllerError(error, res, "Error occurred");

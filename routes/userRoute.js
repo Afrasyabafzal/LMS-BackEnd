@@ -102,7 +102,7 @@ router.get(
   deleteTeacher__controller
 );
 
-router.get(
+router.post(
   "/delete-scheduler",
   requireLogin,
   adminAuthentication,
