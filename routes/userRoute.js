@@ -95,8 +95,8 @@ router.get(
   deleteClient_controller
 )
 
-router.get(
-  "/delete/:id",
+router.post(
+  "/delete-teacher",
   requireLogin,
   adminAuthentication,
   deleteTeacher__controller

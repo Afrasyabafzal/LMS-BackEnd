@@ -135,31 +135,72 @@ module.exports.deleteClient_controller = async (req, res, next) => {
 
 module.exports.deleteTeacher__controller = async (req, res, next) => {
     try {
-      const  userId  = req.params.id;
-      const user = await UserModel.findOneAndDelete({ _id: userId });
-      if(user.role == "Student")
-        var user1 = await TimeTableModel.deleteMany({student:user._id})
-      else
-        var user1 = await TimeTableModel.deleteMany({teacher:user._id})
-      if(user)
-      {
-        return res.status(200).json({
-            user,
-            message: "User deleted successfully"
-          });
-      }
-    else{
-            return res.status(400).json({
-                error: "USER NOT FOUND"
-              });
+      const  {teacherId,newTeacherId}  = req.body;
+      const user=await UserModel.find({teacher:teacherId})
+      console.log(user)
+      const updated = await UserModel.updateMany({teacher:teacherId},{$set:{teacher:newTeacherId}})
+      if(updated){
+        const user1 = await TimeTableModel.find({teacher:teacherId})
+        console.log(user1)
+        if(user1){
+          for(let i=0;i< user1.length;i++){
+            const updated1 = await ClassAttendenceModel.findOneAndDelete({AttedendedClass:user1[i]._id})
+            console.log(updated1)
+          }
         }
+      }
+
+
+
       
+
+      
+      const updated2 = await TimeTableModel.deleteMany({teacher:teacherId})
+      console.log(updated2)
+      
+        const user2 = await UserModel.findOneAndDelete({ _id: teacherId});
+        if(user2)
+        {
+          return res.status(200).json({
+              user2,
+              message: "Teacher deleted successfully"
+            });
+        }
+      else{
+              return res.status(400).json({
+                  error: "Teacher NOT FOUND"
+                });
+          }
+
     } catch (err) {
       return res.status(400).json({
         error: "Something went wrong",
       });
     }
   };
+
+
+
+
+
+    //   const user = await UserModel.findOneAndDelete({ _id: userId });
+    //   if(user.role == "Student")
+    //     var user1 = await TimeTableModel.deleteMany({student:user._id})
+    //   else
+    //     var user1 = await TimeTableModel.deleteMany({teacher:user._id})
+    //   if(user)
+    //   {
+    //     return res.status(200).json({
+    //         user,
+    //         message: "User deleted successfully"
+    //       });
+    //   }
+    // else{
+    //         return res.status(400).json({
+    //             error: "USER NOT FOUND"
+    //           });
+    //     }
+      
 
   module.exports.deleteScheduler__controller = async (req, res, next) => {
     try {
