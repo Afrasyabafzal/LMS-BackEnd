@@ -8,17 +8,35 @@ const HoldModel = require("../model/Hold");
 const bcrypt = require("bcryptjs");
 const controllerError = require("../utils/controllerError");
 const jwt = require("jsonwebtoken");
+const FeeModel = require("../model/FeeModel");
+const ClassAttendenceModel = require("../model/ClassAttendence");
 const cloudinary=require('../middlewares/cloudinary')
 const key = process.env.SECRET_KEY
 const Cryptr = require("cryptr");
 const cryptr = new Cryptr(key);
 //const { SECRET_KEY } = require("../config/keys");
+
+
+
 module.exports.hold_student=async(req,res,next)=>{
   try{
     const { _id,userName, email, password,RollNumber, confirmPassword, role, enrollmentDate,zoomID,familyName, numberOfClasses, teacher,reason,returnDate, FeeDate, fee, course, currency } = req.body;
     console.log(RollNumber);
     const hash = cryptr.encrypt(password);
     const user1 =  await UserModel.findOneAndDelete({ _id: _id });
+    const user2 =  await FeeModel.find({student: _id});
+    console.log(user2);
+    for(let i=0;i<user2.length;i++){  
+      const user3 =  await FeeModel.findOneAndDelete({ _id: user2[i]._id });
+    }
+
+
+    const temp = await TimeTableModel.find({student: _id});
+    console.log(temp);
+    for(let i=0;i<temp.length;i++){
+      const temp2 = await ClassAttendenceModel.findOneAndDelete({AttedendedClass: temp[i]._id});
+    }
+    const user3 =  await TimeTableModel.findOneAndDelete({student: _id });    
     const user = await new HoldModel({
       _id,
       userName,
@@ -65,6 +83,19 @@ module.exports.quit_student=async(req,res,next)=>{
     console.log(userName);
     const hash = cryptr.encrypt(password);
     const user1 =  await UserModel.findOneAndDelete({ _id: _id });
+    const user2 =  await FeeModel.find({student: _id});
+    console.log(user2);
+    for(let i=0;i<user2.length;i++){  
+      const user3 =  await FeeModel.findOneAndDelete({ _id: user2[i]._id });
+    }
+
+
+    const temp = await TimeTableModel.find({student: _id});
+    console.log(temp);
+    for(let i=0;i<temp.length;i++){
+      const temp2 = await ClassAttendenceModel.findOneAndDelete({AttedendedClass: temp[i]._id});
+    }
+    const user3 =  await TimeTableModel.findOneAndDelete({student: _id });
     const user = await new QuitModel({
       _id,
       userName,
