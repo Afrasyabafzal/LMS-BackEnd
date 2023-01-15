@@ -14,6 +14,19 @@ module.exports.getFee = async (req, res, next) => {
         controllerError(error, res, "Error occurred");
     }
 };
+//get fee by student id
+module.exports.getFeeByStudent = async (req, res, next) => {
+    try {
+        const userId = req.params.id;
+        const fee = await FeeModel.find({student:userId});
+        res.status(200).json({
+        fee,
+        });
+    } catch (error) {
+        controllerError(error, res, "Error occurred");
+    }
+};
+
 //store fee
 module.exports.storeFee = async (req, res, next) => {
     try {
