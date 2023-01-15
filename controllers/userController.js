@@ -163,21 +163,29 @@ module.exports.deleteTeacher__controller = async (req, res, next) => {
 
   module.exports.deleteScheduler__controller = async (req, res, next) => {
     try {
-      const  userId  = req.params.id;
-      const user = await UserModel.findOneAndDelete({ _id: userId });
-      if(user)
+      // const  userId  = req.params.id;
+      const {schedulerId,newSchedulerId} = req.body;
+      console.log(schedulerId,newSchedulerId)
+      const user = await UserModel.find({scheduler:schedulerId})
+      console.log(user)
+
+      for (let i = 0; i < user.length; i++) {
+        const user1 = await UserModel.findByIdAndUpdate(user[i]._id, {scheduler:newSchedulerId})
+      }
+      const user2 = await UserModel
+      .findOneAndDelete({ _id: schedulerId });
+      if(user2)
       {
         return res.status(200).json({
-            user,
-            message: "User deleted successfully"
+            user2,
+            message: "Scheduler deleted successfully"
           });
       }
     else{
             return res.status(400).json({
-                error: "USER NOT FOUND"
+                error: "Scheduler NOT FOUND"
               });
-        }
-      
+        }      
     } catch (err) {
       return res.status(400).json({
         error: "Something went wrong",

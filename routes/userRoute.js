@@ -103,7 +103,7 @@ router.get(
 );
 
 router.get(
-  "/delete-scheduler/:id",
+  "/delete-scheduler",
   requireLogin,
   adminAuthentication,
   deleteScheduler__controller
