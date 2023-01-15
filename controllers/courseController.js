@@ -1,4 +1,6 @@
 const CourseModel = require("../model/CourseModel");
+const UserModel = require("../model/UserModel");
+const HoldModel = require("../model/Hold");
 const cloudinary=require('../middlewares/cloudinary')
 
 module.exports.postCourse__controller = async (req, res, next) => {
@@ -79,7 +81,11 @@ module.exports.getOneCourse__controller = async (req, res, next) => {
 module.exports.deleteCourse__Controller = async (req, res, next) => {
   console.log("api calling")
   try {
-    const { courseId } = req.params;
+    const { courseId,newCourseId } = req.body;
+    const user= await UserModel.updateMany({course:courseId},{$set:{course:newCourseId}});
+    console.log(user)
+    const user1= await HoldModel.updateMany({course:courseId},{$set:{course:newCourseId}});
+    console.log(user1)
     console.log(courseId)
     const course = await CourseModel.findOneAndDelete({ _id: courseId });
     return res.status(200).json({
