@@ -149,11 +149,6 @@ module.exports.deleteTeacher__controller = async (req, res, next) => {
           }
         }
       }
-
-
-
-      
-
       
       const updated2 = await TimeTableModel.deleteMany({teacher:teacherId})
       console.log(updated2)
@@ -239,7 +234,11 @@ module.exports.deleteTeacher__controller = async (req, res, next) => {
       const  TimeTableId  = req.params.id;
       console.log(TimeTableId)
       const user = await TimeTableModel.findOneAndDelete({ _id: TimeTableId });
-      if(user)
+
+      const user1 = await ClassAttendenceModel.deleteMany({AttedendedClass:TimeTableId})
+
+
+      if(user && user1)
       {
         return res.status(200).json({
             user,
