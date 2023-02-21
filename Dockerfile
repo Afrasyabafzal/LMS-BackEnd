@@ -10,7 +10,7 @@ RUN npm install express --save
 
 COPY . ./
 
-EXPOSE 4000
+EXPOSE 5000
 
 CMD ["npm", "run", "start"]
 
