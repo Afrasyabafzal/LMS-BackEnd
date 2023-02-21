@@ -20,7 +20,7 @@ const { adminAuthentication } = require("../middlewares/authentication");
 const { requireLogin } = require("../middlewares/requireLogin");
 const {hold_validator}=require("../middlewares/holdvalidator")
 const {revert_Student__controller}=require("../controllers/quitAndHoldController")
-const {quit_validator}=require("../middlewares/quitvalidator")
+const {quit_validator}=require("../middlewares/quitValidator")
 const {timeTable_validator}=require("../middlewares/timeTableValidator")
 
 
