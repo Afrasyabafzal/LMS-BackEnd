@@ -12,8 +12,8 @@ dotenv.config();
 var cron = require('node-cron');
 
 // TODO:middleware
-const url = process.env.MONGO_URI
-const cryptr = new Cryptr(process.env.SECRET_KEY);
+const url = "mongodb+srv://Afrasyab:Afra1234@lms.ljx4rbp.mongodb.net/?retryWrites=true&w=majority"
+const cryptr = new Cryptr("5u8x/A?D(G+KbPeSgVkYp3s6v9y$B&E)");
 app.use("/uploads", express.static("uploads"));
 
 // app.use(bodyParser.urlencoded({ extended: false }));

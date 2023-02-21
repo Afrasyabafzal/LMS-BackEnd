@@ -1,7 +1,7 @@
 FROM node:lts-alpine
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# ENV PATH /app/node_modules/.bin:$PATH
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
 COPY package.json ./
 
@@ -10,7 +10,7 @@ RUN npm install express --save
 
 COPY . ./
 
-EXPOSE 3000
+EXPOSE 4000
 
 CMD ["npm", "run", "start"]
 

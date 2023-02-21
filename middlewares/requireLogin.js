@@ -2,7 +2,7 @@ const User = require('../model/UserModel')
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 //const {SECRET_KEY}=require('../config/keys')
-const key = process.env.SECRET_KEY
+const key = "5u8x/A?D(G+KbPeSgVkYp3s6v9y$B&E)"
 
 module.exports={
     requireLogin(req,res,next){

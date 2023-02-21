@@ -7,7 +7,7 @@ const QuitModel = require("../model/Quit");
 const HoldModel = require("../model/Hold");
 const controllerError = require("../utils/controllerError");
 
-const key = process.env.SECRET_KEY
+const key = "5u8x/A?D(G+KbPeSgVkYp3s6v9y$B&E)"
 
 const Cryptr = require("cryptr");
 const cryptr = new Cryptr(key);
