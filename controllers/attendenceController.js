@@ -140,7 +140,9 @@ module.exports.get_confirmed_class_by_teacher = async (req,res,next)=>{
                     if(classAttendence && classAttendence[i].SchedularConfirmation){
                         const d = new Date(classAttendence[j].dateofAttendence)
 
+                        console.log(d.toISOString().slice(0,10) == new Date().toISOString().slice(0,10))    
                         if(d.toISOString().slice(0,10) == new Date().toISOString().slice(0,10)){
+                            console.log(d.toISOString().slice(0,10) == new Date().toISOString().slice(0,10))
                         tmp.push({
                             slot: timeTable[i].TeacherStartTime + "-" + timeTable[i].TeacherEndTime,
                             dateOfClass: d.toISOString().slice(0,10),
@@ -152,6 +154,7 @@ module.exports.get_confirmed_class_by_teacher = async (req,res,next)=>{
                       
             }
           }
+          console.log(tmp)
             res.status(200).json({
                 data:tmp,
                 message:"Class confirmed in Record"

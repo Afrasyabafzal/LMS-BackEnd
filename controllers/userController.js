@@ -421,8 +421,12 @@ module.exports.edit_Timetable = async (req, res, next) => {
 module.exports.getProfile__controller = async (req, res, next) => {
   try{
     console.log(req.params);
-    const { ID } = req.params;
-    const user = await StudentModel.findOne({ ID });
+    const  ID  = req.params.id;
+    console.log(ID);  
+    const user = await StudentModel.findOne({user:ID });
+    console.log(user)
+    const all = await StudentModel.find();
+    console.log(all)
     return res.status(200).json({
       user,
     });
